@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import CreateTournament from './Tournament/Create/create.js';
 
