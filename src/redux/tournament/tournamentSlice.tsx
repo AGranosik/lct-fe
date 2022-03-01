@@ -12,6 +12,7 @@ export const tournamentSlice = createSlice({
     initialState,
     reducers: {
         create: (state: CreateTournamentModel, action : { payload: CreateTournamentModel}) => {
+            console.log(action);
             state.name = action.payload.name;
             state.numberOfPlayers = action.payload.numberOfPlayers;
         },

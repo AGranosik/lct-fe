@@ -1,16 +1,18 @@
 import { ErrorMessage } from '@hookform/error-message';
-import React, { useState } from 'react'
+import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../redux/store';
+import { create } from '../../redux/tournament/tournamentSlice.tsx';
 import './create.css'
 import { CreateTournamentModel } from './Models/models';
 
 export default function CreateTournament() {
 
-    const { register, handleSubmit, watch, formState: { errors }} = useForm<CreateTournamentModel>();
-    const onSubmit: SubmitHandler<CreateTournamentModel> = data => console.log(data);
     const state = useSelector((state: Store) => state.tournament);
+    const dispatch = useDispatch();
+    const { register, handleSubmit, watch, formState: { errors }} = useForm<CreateTournamentModel>();
+    const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(create(data));
 
     console.log(state);
         return (
@@ -21,7 +23,7 @@ export default function CreateTournament() {
                     <ErrorMessage errors={errors} name="name" />
                     <label>Liczba graczy</label>
                     <input type="text" {...register('numberOfPlayers', { required: true, min: 1, max: {value: 20, message: 'Maksymalna wartość wynosi: 20'}})}></input>
-                    <ErrorMessage errors={errors} name="numberOfPLayers" />
+                    <ErrorMessage errors={errors} name="numberOfPlayers" />
 
                     <input type="submit" value="Stwórz" />
                 </form>
