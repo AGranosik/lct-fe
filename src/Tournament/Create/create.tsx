@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../redux/store';
 import { create } from '../../redux/tournament/tournamentSlice.tsx';
-import './create.css'
+import './create.scss'
 import { CreateTournamentModel } from './Models/models';
 
 export default function CreateTournament() {
