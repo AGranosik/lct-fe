@@ -1,4 +1,13 @@
 .tournament-container{
+    height: 100%;
+    position: absolute;
+    width: 100%;
     display: flex;
-    color: red;
+    justify-content: center;
+    align-items: center;
+    .input-container{
+        label, input{
+            display: block;
+        }
+    }
 }
