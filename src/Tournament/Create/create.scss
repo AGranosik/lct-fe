@@ -6,8 +6,15 @@
     justify-content: center;
     align-items: center;
     .input-container{
+        margin-bottom: 1rem;
         label, input{
             display: block;
         }
+        
+    }
+
+    .submit-container{
+        display: flex;
+        justify-content: center;
     }
 }
