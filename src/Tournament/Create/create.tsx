@@ -15,17 +15,21 @@ export default function CreateTournament() {
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, formState: { errors }} = useForm<CreateTournamentModel>();
     const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(create(data));
-
+    
         return (
             <div className='tournament-container'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='input-container name-container'>
-                        <TextField fullWidth label="Nazwa" {...register('name', { required: 'This is ...', maxLength: 50 })} />
-                        <ErrorMessage errors={errors} name="name" />
+                        <TextField error={!!errors.name} fullWidth label="Nazwa" {...register('name', { required: 'This is ...', maxLength: 50 })} />
+                        <div className='error-container'>
+                            <ErrorMessage errors={errors} name="name" />
+                        </div>
                     </div>
                     <div className='input-container numberOfPlayers-container'>
-                        <TextField fullWidth label="Liczba graczy" {...register('numberOfPlayers', { required: true, min: 1, max: {value: 20, message: 'Maksymalna wartość wynosi: 20'}})} />
-                        <ErrorMessage errors={errors} name="numberOfPlayers" />
+                        <TextField error={!!errors.numberOfPlayers} fullWidth label="Liczba graczy" {...register('numberOfPlayers', { required: true, min: 1, max: {value: 20, message: 'Maksymalna wartość wynosi: 20'}})} />
+                        <div className='error-container'>
+                            <ErrorMessage errors={errors} name="numberOfPlayers" />
+                        </div>
                     </div>
                     <div className='submit-container'>
                         <Button type="submit" variant="contained">Stwórz</Button>
