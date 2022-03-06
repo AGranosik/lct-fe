@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { CreateTournamentModel } from "../../Tournament/Create/Models/models";
 
 
@@ -12,9 +13,13 @@ export const tournamentSlice = createSlice({
     initialState,
     reducers: {
         create: (state: CreateTournamentModel, action : { payload: CreateTournamentModel}) => {
-            console.log(action);
-            state.name = action.payload.name;
-            state.numberOfPlayers = action.payload.numberOfPlayers;
+
+            const response = axios.post<string>('https://localhost:7008/api/tournament/create', action.payload)
+            .then((response) => {
+                state.name = action.payload.name;
+                state.numberOfPlayers = action.payload.numberOfPlayers;
+                console.log(response);
+            })
         },
     }
 });

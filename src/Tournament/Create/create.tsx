@@ -11,7 +11,6 @@ import { CreateTournamentModel } from './Models/models';
 
 export default function CreateTournament() {
 
-    const state = useSelector((state: Store) => state.tournament);
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, formState: { errors }} = useForm<CreateTournamentModel>();
     const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(create(data));
