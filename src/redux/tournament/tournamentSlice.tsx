@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
 import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
 
@@ -29,6 +28,7 @@ export const tournamentSlice = createSlice({
             state.name = name
             state.playerLimit = playerLimit
             state.id = action.payload;
+            return state;
         })
     }
 });
