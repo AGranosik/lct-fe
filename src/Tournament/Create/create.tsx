@@ -4,8 +4,7 @@ import Button from '@mui/material/Button';
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Store } from '../../redux/store';
-import { create } from '../../redux/tournament/tournamentSlice.tsx';
+import { create, createTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
 import './create.scss'
 import { CreateTournamentModel } from './Models/models';
 
@@ -13,7 +12,7 @@ export default function CreateTournament() {
 
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, formState: { errors }} = useForm<CreateTournamentModel>();
-    const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(create(data));
+    const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(createTournamentAsyncThunk(data));
     
         return (
             <div className='tournament-container'>
