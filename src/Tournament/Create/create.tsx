@@ -18,7 +18,7 @@ export default function CreateTournament() {
     
         return (
             <div className='tournament-container'>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)}> 
                     <div className='input-container name-container'>
                         <TextField error={!!errors.name} fullWidth label="Nazwa" {...register('name', { required: 'This is ...', maxLength: 50 })} />
                         <div className='error-container'>
