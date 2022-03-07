@@ -6,10 +6,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { create, createTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
 import './create.scss'
-import { CreateTournamentModel } from './Models/models';
+import { CreateTournamentModel, TournamentModel } from './Models/models';
 
 export default function CreateTournament() {
 
+    const tournament = useSelector((state: {tournament: TournamentModel}) => {
+        console.log(state);
+
+        return state.tournament
+    });
     const dispatch = useDispatch();
     const { register, handleSubmit, watch, formState: { errors }} = useForm<CreateTournamentModel>();
     const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(createTournamentAsyncThunk(data));
@@ -24,9 +29,9 @@ export default function CreateTournament() {
                         </div>
                     </div>
                     <div className='input-container numberOfPlayers-container'>
-                        <TextField error={!!errors.numberOfPlayers} fullWidth label="Liczba graczy" {...register('numberOfPlayers', { required: true, min: 1, max: {value: 20, message: 'Maksymalna wartość wynosi: 20'}})} />
+                        <TextField error={!!errors.playerLimit} fullWidth label="Liczba graczy" {...register('playerLimit', { required: true, min: 1, max: {value: 20, message: 'Maksymalna wartość wynosi: 20'}})} />
                         <div className='error-container'>
-                            <ErrorMessage errors={errors} name="numberOfPlayers" />
+                            <ErrorMessage errors={errors} name="playerLimit" />
                         </div>
                     </div>
                     <div className='submit-container'>

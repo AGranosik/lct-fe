@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
-import { CreateTournamentModel } from "../../Tournament/Create/Models/models";
+import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
 
 
-const initialState: CreateTournamentModel = {
+const initialState: TournamentModel = {
     name: '',
-    numberOfPlayers: 0
+    playerLimit: 0,
+    id: ''
 }
 
 export const createTournamentAsyncThunk = createAsyncThunk(
@@ -21,17 +22,15 @@ export const tournamentSlice = createSlice({
     name: 'tournament',
     initialState,
     reducers: {
-        create: (state: CreateTournamentModel, action : { payload: CreateTournamentModel}) => {
-        },
     },
     extraReducers: (builder) => {
-        builder.addCase(createTournamentAsyncThunk.fulfilled, (state: CreateTournamentModel, action) => {
-            state.name = action.meta.arg.name;
-            state.numberOfPlayers = action.meta.arg.numberOfPlayers;
+        builder.addCase(createTournamentAsyncThunk.fulfilled, (state: TournamentModel, action) => {
+            const {name, playerLimit} = action.meta.arg;
+            state.name = name
+            state.playerLimit = playerLimit
+            state.id = action.payload;
         })
     }
 });
-
-export const { create } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;

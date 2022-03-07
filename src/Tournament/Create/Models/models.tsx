@@ -1,4 +1,8 @@
 export interface CreateTournamentModel {
     name: string,
-    numberOfPlayers: number
+    playerLimit: number
 };
+
+export interface TournamentModel extends CreateTournamentModel{
+    id: string;
+}
