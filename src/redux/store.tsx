@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { CreateTournamentModel } from '../Tournament/Create/Models/models'
+import { TournamentModel } from '../Tournament/Create/Models/models'
 import tournamentSlice from './tournament/tournamentSlice.tsx'
 
 export interface Store {
-    tournament: CreateTournamentModel
+    tournament: TournamentModel
 }
 
 

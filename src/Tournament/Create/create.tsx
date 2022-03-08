@@ -1,21 +1,25 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { TextField } from '@mui/material';
 import Button from '@mui/material/Button';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../redux/store';
-import { create, createTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
+import { createTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
 import './create.scss'
 import { CreateTournamentModel } from './Models/models';
+import {useNavigate} from "react-router-dom";
 
-export default function CreateTournament() {
-
+export default function CreateTournament(props) {
+    const navigate = useNavigate();
     const tournament = useSelector((state: Store) => state.tournament);
     const dispatch = useDispatch();
-    const { register, handleSubmit, watch, formState: { errors }} = useForm<CreateTournamentModel>();
+    const { register, handleSubmit, formState: { errors }} = useForm<CreateTournamentModel>();
     const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(createTournamentAsyncThunk(data));
-    
+    useEffect(() => {
+        if(tournament.id)
+            navigate('/management');
+    })
         return (
             <div className='tournament-container'>
                 <form onSubmit={handleSubmit(onSubmit)}> 
