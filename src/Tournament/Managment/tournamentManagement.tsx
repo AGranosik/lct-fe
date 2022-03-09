@@ -8,15 +8,22 @@ import './tournamentManagement.scss'
 export default function TournamentManagement(){
 
     const {id} = useParams();
-    const tournament = useSelector((state: Store) => state.tournament);
+    const tournament = useSelector((state: Store) => {
+        console.log(state);
+        console.log('hehere')
+        return state.tournament
+    });
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log(id);
-        dispatch(getTournamentAsyncThunk(id))
-    })
+        dispatch(getTournamentAsyncThunk(id));
+    }, [])
 
     return(
-
-        <div>Managment</div>
+        <div>
+            <div className='qrCode-container'>
+                <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
+            </div>
+            <div>Managment</div>
+        </div>
     );
 }

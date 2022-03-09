@@ -2,13 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
 import { createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
 import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
+import { Store } from "../store";
 
 
 const initialState: TournamentModel = {
-    name: '',
-    playerLimit: 0,
-    id: '',
-    players: [],
+        name: '',
+        playerLimit: 0,
+        id: '',
+        players: [],
+        qrCode: ''
+    
 }
 
 export const createTournamentAsyncThunk = createAsyncThunk(
@@ -41,7 +44,11 @@ export const tournamentSlice = createSlice({
             return state;
         });
         builder.addCase(getTournamentAsyncThunk.fulfilled, (state: TournamentModel, action) => {
-            console.log(action);
+            const {tournamentName, qrCode, players} = action.payload;
+            state.name = tournamentName;
+            state.qrCode = qrCode;
+            state.players = players;
+            return state;
         })
     }
 });

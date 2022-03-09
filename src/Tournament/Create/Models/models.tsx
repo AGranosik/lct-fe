@@ -8,4 +8,5 @@ export interface CreateTournamentModel {
 export interface TournamentModel extends CreateTournamentModel{
     id: string;
     players: PlayerModel[];
+    qrCode: string;
 }
