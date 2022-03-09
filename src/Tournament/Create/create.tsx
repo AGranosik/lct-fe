@@ -18,7 +18,7 @@ export default function CreateTournament(props) {
     const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(createTournamentAsyncThunk(data));
     useEffect(() => {
         if(tournament.id)
-            navigate('/management');
+            navigate(`/management/${tournament.id}`);
     })
         return (
             <div className='tournament-container'>
