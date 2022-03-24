@@ -40,13 +40,18 @@ export default function TournamentManagement(){
         return state.tournament
     });
 
+    const sendMessage = async () => {
+        console.log('send message');
+        if(connection) await connection.send('SendMessage', 'hehe');
+    }
+
     return(
         <div>
             <div className='qrCode-container'>
                 <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
             </div>
             <div>Managment</div>
-            <button onClick={() => connection.send('Test', 'fiu fiu')}>Button</button>
+            <button onClick={sendMessage}>Button</button>
         </div>
     );
 }
