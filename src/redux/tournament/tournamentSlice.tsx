@@ -44,10 +44,11 @@ export const tournamentSlice = createSlice({
             return state;
         });
         builder.addCase(getTournamentAsyncThunk.fulfilled, (state: TournamentModel, action) => {
-            const {tournamentName, qrCode, players} = action.payload;
+            const {id, tournamentName, qrCode, players} = action.payload;
             state.name = tournamentName;
             state.qrCode = qrCode;
             state.players = players;
+            state.id = id;
             return state;
         })
     }

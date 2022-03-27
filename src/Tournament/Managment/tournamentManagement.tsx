@@ -17,18 +17,16 @@ export default function TournamentManagement(){
             .withAutomaticReconnect()
             .build();
 
-        setConnection(newConnection);
         dispatch(getTournamentAsyncThunk(id));
+        setConnection(newConnection);
     }, []);
 
     useEffect(() => {
         if (connection) {
             connection.start()
                 .then(result => {
-                    console.log('Connected!');
-    
-                    connection.on('Test', message => {
-                        alert(message);
+                    connection.on(tournament.id, message => {
+                        console.log(message);
                     });
                 })
                 .catch(e => console.log('Connection failed: ', e));
@@ -40,18 +38,12 @@ export default function TournamentManagement(){
         return state.tournament
     });
 
-    const sendMessage = async () => {
-        console.log('send message');
-        if(connection) await connection.send('SendMessage', 'hehe');
-    }
-
     return(
         <div>
             <div className='qrCode-container'>
                 <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
             </div>
             <div>Managment</div>
-            <button onClick={sendMessage}>Button</button>
         </div>
     );
 }
