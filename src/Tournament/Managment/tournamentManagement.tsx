@@ -28,6 +28,10 @@ export default function TournamentManagement(){
                     connection.on(tournament.id, message => {
                         console.log(message);
                     });
+                    connection.on(`${tournament.id}/select`, message => {
+                        console.log('select');
+                        console.log(message);
+                    })
                 })
                 .catch(e => console.log('Connection failed: ', e));
         }
