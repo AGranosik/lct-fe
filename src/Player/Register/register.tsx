@@ -1,11 +1,14 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { Button, TextField } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { registerPlayerAsyncThunk } from "../../redux/player/playerSlice.tsx";
 import { PlayerRegisterModel } from "./Models/playerRegisterModel.tsx";
 import './register.scss'
 export default function PlayerRegister(){
+    const dispatch = useDispatch();
     const { register, handleSubmit, formState: { errors }} = useForm<PlayerRegisterModel>(); 
-    const onSubmit: SubmitHandler<PlayerRegisterModel> = (data: PlayerRegisterModel) => console.log(data);
+    const onSubmit: SubmitHandler<PlayerRegisterModel> = (data: PlayerRegisterModel) => dispatch(registerPlayerAsyncThunk(data));
     return(
         <div className="registration-container">
             <form onSubmit={handleSubmit(onSubmit)}>

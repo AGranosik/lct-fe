@@ -1,4 +1,4 @@
-import { PlayerModel } from '../../Managment/Models/PlayerModel.tsx'
+import { PlayerModel } from '../../../Player/Register/Models/PlayerModel.tsx'
 
 export interface CreateTournamentModel {
     name: string,
