@@ -12,6 +12,7 @@ const initialState: PlayerModel = {
 export const registerPlayerAsyncThunk = createAsyncThunk(
     'tournament/player/register',
     async (data: PlayerRegisterModel) => {
+        console.log(data);
         const response = await registerPlayer(data);
         return response.data;
     }
@@ -24,10 +25,13 @@ export const playerSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(registerPlayerAsyncThunk.fulfilled, (state: PlayerModel, action) => {
-            console.log(state);
-            console.log(action);
-
+            const { name, surname} = action.meta.arg;
+            state.name = name;
+            state.surname = surname;
+            state.id = action.payload;
             return state;
         });
     }
 })
+
+export default playerSlice.reducer;
