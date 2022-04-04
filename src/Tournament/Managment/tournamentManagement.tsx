@@ -13,6 +13,12 @@ export default function TournamentManagement(){
     const [connection, setConnection] = useState(null);
     const dispatch = useDispatch();
 
+    const {id} = useParams();
+    let players = [];
+    const tournament = useSelector((state: Store) => {
+        players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name}</div>)
+        return state.tournament
+    });
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
             .withUrl('https://localhost:7008/hubs/player')
@@ -27,10 +33,8 @@ export default function TournamentManagement(){
         if (connection) {
             connection.start()
                 .then(result => {
-                    console.log(tournament.id);
-                    connection.on(tournament.id, (player: PlayerModel) => {
+                    connection.on(id, (player: PlayerModel) => {
                         dispatch(addPlayer(player));
-                        //sprawdz czy to połaczenie się nie nawiązuje ciągle
                     });
                     connection.on(`${tournament.id}/select`, message => {
                         console.log('select');
@@ -41,10 +45,6 @@ export default function TournamentManagement(){
         }
     }, [connection]);
 
-    const {id} = useParams();
-    const tournament = useSelector((state: Store) => {
-        return state.tournament
-    });
 
     return(
         <div>
@@ -52,6 +52,7 @@ export default function TournamentManagement(){
                 <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
             </div>
             <div>Managment</div>
+            {players}
         </div>
     );
 }

@@ -36,7 +36,10 @@ export const tournamentSlice = createSlice({
     initialState,
     reducers: {
         addPlayer: (state: TournamentModel, action: PayloadAction<PlayerModel>) => {
-            state.players.push(action.payload);
+            const addedPlayer = action.payload;
+            const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === addedPlayer.name && player.surname === addedPlayer.surname);
+            if(playerIndex === -1)
+                state.players.push(action.payload);
         }
     },
     extraReducers: (builder) => {
