@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
 import { createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
+import { PlayerModel } from "../../Player/Register/Models/PlayerModel.tsx";
 import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
 import { Store } from "../store";
 
@@ -34,6 +35,9 @@ export const tournamentSlice = createSlice({
     name: 'tournament',
     initialState,
     reducers: {
+        addPlayer: (state: TournamentModel, action: PayloadAction<PlayerModel>) => {
+            state.players.push(action.payload);
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(createTournamentAsyncThunk.fulfilled, (state: TournamentModel, action) => {
@@ -53,5 +57,7 @@ export const tournamentSlice = createSlice({
         })
     }
 });
+
+export const { addPlayer } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;

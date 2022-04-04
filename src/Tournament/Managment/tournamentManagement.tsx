@@ -5,6 +5,8 @@ import { Store } from '../../redux/store';
 import { getTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
 import './tournamentManagement.scss';
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import { addPlayer } from '../../redux/tournament/tournamentSlice.tsx';
+import { PlayerModel } from '../../Player/Register/Models/PlayerModel.tsx';
 
 export default function TournamentManagement(){
 
@@ -25,8 +27,10 @@ export default function TournamentManagement(){
         if (connection) {
             connection.start()
                 .then(result => {
-                    connection.on(tournament.id, message => {
-                        console.log(message);
+                    console.log(tournament.id);
+                    connection.on(tournament.id, (player: PlayerModel) => {
+                        dispatch(addPlayer(player));
+                        //sprawdz czy to połaczenie się nie nawiązuje ciągle
                     });
                     connection.on(`${tournament.id}/select`, message => {
                         console.log('select');
