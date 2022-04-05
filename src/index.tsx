@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store.tsx';
 import CreateTournament from './Tournament/Create/create.tsx';
 import PlayerRegister from './Player/Register/register.tsx';
+import SelectTeam from './Player/SelectTeam/selectTeam.tsx';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Route path='/' element={<CreateTournament />}/>
         <Route path='/management/:id' element={<TournamentManagement />} />
         <Route path='/player/register/:id' element={<PlayerRegister/>} />
+        <Route path='/player/select/:id' element={<SelectTeam/>} />
       </Routes>
     </BrowserRouter>
     </Provider>
