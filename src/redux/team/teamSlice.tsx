@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { selectTeamApi } from "../../api/Team/teamApi.tsx";
+import { SelectTeamApiModel } from "../../api/Team/teamApi.tsx";
 import { getTeamsApi } from "../../api/Team/teamApi.tsx";
 
 const initialState: string[] = [];
@@ -7,7 +9,6 @@ export const getTeamsAsyncThunk = createAsyncThunk(
     'teams/get',
     async () => {
         const response = await getTeamsApi();
-        console.log(response.data);
         return response.data;
     }
 )
@@ -21,7 +22,7 @@ export const teamsSlice = createSlice({
         builder.addCase(getTeamsAsyncThunk.fulfilled, (state: string[], action) => {
             state = action.payload;
             return state;
-        })
+        });
     }
 })
 
