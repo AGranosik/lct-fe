@@ -9,7 +9,7 @@ import './selectTeam.scss'
 export default function SelectTeam() {
     const {id} = useParams();
     const dispatch = useDispatch();
-    // const [ selectTeam, setSelectedTeam ] = useState();
+    const [ selectedTeam, setSelectedTeam ] = useState('');
 
     const teams = useSelector((state: Store) => state.teams);
 
@@ -19,7 +19,7 @@ export default function SelectTeam() {
 
     const selectTeam = () => {
         return teams.map((team: string) => {
-            return (<div key={team} className="team">{team}</div>)
+            return (<div key={team} onClick={() => setSelectedTeam(team)} className={team === selectedTeam ? 'selected team' : 'team'} >{team}</div>)
         })
     } 
     return(
@@ -31,6 +31,7 @@ export default function SelectTeam() {
             <div className="team-select-button">
                 <Button variant="contained">Wybierz</Button>
             </div>
+            {selectedTeam}
         </div>
             )
 }
