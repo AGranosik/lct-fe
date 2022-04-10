@@ -1,6 +1,16 @@
 import axios from "axios"
-import { _getTeamsUrl } from "../_variables.tsx"
+import { _getTeamsUrl, _selectTeamUrl } from "../_variables.tsx"
+
+export interface SelectTeamApiModel{
+    playerId: string;
+    tournamentId: string;
+    team: string;
+}
 
 export const getTeamsApi = () => {
     return axios.get<string[]>(`${_getTeamsUrl}`);
+}
+
+export const selectTeamApi = (data: SelectTeamApiModel) => {
+    return axios.post(_selectTeamUrl, data);
 }

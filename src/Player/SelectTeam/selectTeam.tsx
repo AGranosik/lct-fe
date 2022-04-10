@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Store } from "../../redux/store.tsx";
@@ -9,7 +9,8 @@ import './selectTeam.scss'
 export default function SelectTeam() {
     const {id} = useParams();
     const dispatch = useDispatch();
-    
+    // const [ selectTeam, setSelectedTeam ] = useState();
+
     const teams = useSelector((state: Store) => state.teams);
 
     useEffect(() => {
@@ -31,5 +32,5 @@ export default function SelectTeam() {
                 <Button variant="contained">Wybierz</Button>
             </div>
         </div>
-    )
+            )
 }
