@@ -1,0 +1,22 @@
+.team-container{
+    max-width: 800px;
+    margin: auto;
+    .title{
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+    }
+    .teams-container {
+        margin-top: 2rem;
+        .team{
+            border: 1px black solid;
+            padding: 0.7rem;
+            text-align: center;
+            margin: 10px;
+        }
+    }
+
+    .team-select-button{
+        text-align: center;
+    }
+}
