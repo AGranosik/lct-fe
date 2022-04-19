@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { selectTeamApi, SelectTeamApiModel } from "../../api/Team/teamApi.tsx";
 import { getTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
 import { createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
 import { PlayerModel } from "../../Player/Register/Models/PlayerModel.tsx";
@@ -31,6 +32,14 @@ export const getTournamentAsyncThunk = createAsyncThunk(
     }
 )
 
+export const selectTeamAsyncThunk = createAsyncThunk(
+    'team/create',
+    async (data: SelectTeamApiModel) => {
+        const response = await selectTeamApi(data);
+        return response.data;
+    }
+)
+
 export const tournamentSlice = createSlice({
     name: 'tournament',
     initialState,
@@ -57,7 +66,12 @@ export const tournamentSlice = createSlice({
             state.players = players;
             state.id = id;
             return state;
-        })
+        });
+        builder.addCase(selectTeamAsyncThunk.fulfilled, (state: TournamentModel, action) => {
+            console.log('here');
+            console.log(state);
+            console.log(action);
+        });
     }
 });
 

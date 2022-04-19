@@ -18,7 +18,7 @@ ReactDOM.render(
         <Route path='/' element={<CreateTournament />}/>
         <Route path='/management/:id' element={<TournamentManagement />} />
         <Route path='/player/register/:id' element={<PlayerRegister/>} />
-        <Route path='/player/select/:id' element={<SelectTeam/>} />
+        <Route path='/player/select/:tournamentId/:playerId' element={<SelectTeam/>} />
       </Routes>
     </BrowserRouter>
     </Provider>

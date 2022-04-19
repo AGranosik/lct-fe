@@ -4,14 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Store } from "../../redux/store.tsx";
 import { getTeamsAsyncThunk } from "../../redux/team/teamSlice.tsx";
+import { selectTeamAsyncThunk } from "../../redux/tournament/tournamentSlice.tsx";
 import './selectTeam.scss'
 
 export default function SelectTeam() {
-    const {id} = useParams();
+    const {tournamentId, playerId} = useParams();
     const dispatch = useDispatch();
     const [ selectedTeam, setSelectedTeam ] = useState('');
 
-    const teams = useSelector((state: Store) => state.teams);
+    const teams = useSelector((state: Store) => {
+        return state.teams
+    });
 
     useEffect(() => {
         dispatch(getTeamsAsyncThunk());
@@ -29,7 +32,13 @@ export default function SelectTeam() {
                 {selectTeam()}
             </div>
             <div className="team-select-button">
-                <Button variant="contained">Wybierz</Button>
+                <Button onClick={
+                    () => dispatch(selectTeamAsyncThunk({
+                        playerId: playerId,
+                        tournamentId: tournamentId,
+                        team: selectedTeam
+                    }))}
+                    variant="contained">Wybierz</Button>
             </div>
             {selectedTeam}
         </div>

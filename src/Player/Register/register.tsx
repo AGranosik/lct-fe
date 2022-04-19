@@ -18,7 +18,7 @@ export default function PlayerRegister(){
 
     useEffect(() => {
         if(player.id)
-            navigate(`/player/select/${player.id}`);
+            navigate(`/player/select/${id}/${player.id}`);
     })
 
     return(

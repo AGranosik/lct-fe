@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { selectTeamApi } from "../../api/Team/teamApi.tsx";
-import { SelectTeamApiModel } from "../../api/Team/teamApi.tsx";
 import { getTeamsApi } from "../../api/Team/teamApi.tsx";
 
 const initialState: string[] = [];
