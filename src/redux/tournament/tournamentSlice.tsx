@@ -46,9 +46,15 @@ export const tournamentSlice = createSlice({
     reducers: {
         addPlayer: (state: TournamentModel, action: PayloadAction<PlayerModel>) => {
             const addedPlayer = action.payload;
+            console.log(action.payload);
             const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === addedPlayer.name && player.surname === addedPlayer.surname);
             if(playerIndex === -1)
                 state.players.push(action.payload);
+        },
+        selectTeam: (state: TournamentModel, action: PayloadAction<{playerId: string, team: string}>) => {
+            const playerIndex = state.players.findIndex((player: PlayerModel) => player.id === action.payload.playerId);
+            if(playerIndex !== -1)
+                state.players[playerIndex].selectedTeam = action.payload.team;
         }
     },
     extraReducers: (builder) => {
@@ -73,6 +79,6 @@ export const tournamentSlice = createSlice({
     }
 });
 
-export const { addPlayer } = tournamentSlice.actions;
+export const { addPlayer, selectTeam } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;

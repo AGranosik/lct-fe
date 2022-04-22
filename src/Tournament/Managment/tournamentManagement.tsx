@@ -5,7 +5,7 @@ import { Store } from '../../redux/store';
 import { getTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
 import './tournamentManagement.scss';
 import { HubConnectionBuilder } from '@microsoft/signalr';
-import { addPlayer } from '../../redux/tournament/tournamentSlice.tsx';
+import { addPlayer, selectTeam } from '../../redux/tournament/tournamentSlice.tsx';
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel.tsx';
 
 export default function TournamentManagement(){
@@ -16,7 +16,7 @@ export default function TournamentManagement(){
     const {id} = useParams();
     let players = [];
     const tournament = useSelector((state: Store) => {
-        players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name}</div>)
+        players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name} - {player.selectedTeam}</div>)
         return state.tournament
     });
     useEffect(() => {
@@ -36,9 +36,10 @@ export default function TournamentManagement(){
                     connection.on(id, (player: PlayerModel) => {
                         dispatch(addPlayer(player));
                     });
-                    connection.on(`${tournament.id}/select`, message => {
+                    connection.on(`${id}/select`, message => {
                         console.log('select');
-                        console.log(message);
+                        console.log(tournament);
+                        dispatch(selectTeam({ playerId: message.playerId,  team: message.team}));
                     })
                 })
                 .catch(e => console.log('Connection failed: ', e));
