@@ -68,9 +68,7 @@ export const tournamentSlice = createSlice({
             return state;
         });
         builder.addCase(selectTeamAsyncThunk.fulfilled, (state: TournamentModel, action) => {
-            console.log('here');
-            console.log(state);
-            console.log(action);
+            
         });
     }
 });
