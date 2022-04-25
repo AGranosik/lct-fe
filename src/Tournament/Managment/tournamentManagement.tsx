@@ -7,16 +7,19 @@ import './tournamentManagement.scss';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { addPlayer, selectTeam } from '../../redux/tournament/tournamentSlice.tsx';
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel.tsx';
+import Button from '@mui/material/Button';
 
 export default function TournamentManagement(){
-
+    
     const [connection, setConnection] = useState(null);
+    const [disabled, setDisabled] = useState(false);
     const dispatch = useDispatch();
-
+    
     const {id} = useParams();
     let players = [];
     const tournament = useSelector((state: Store) => {
         players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name} - {player.selectedTeam}</div>)
+        console.log(state.tournament);
         return state.tournament
     });
     useEffect(() => {
@@ -27,7 +30,11 @@ export default function TournamentManagement(){
 
         dispatch(getTournamentAsyncThunk(id));
         setConnection(newConnection);
-    }, []);
+
+        console.log(tournament.playerLimit);
+        setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== ''));
+            console.log(disabled);
+    }, [tournament.playerLimit]);
 
     useEffect(() => {
         if (connection) {
@@ -54,6 +61,10 @@ export default function TournamentManagement(){
             </div>
             <div>Managment</div>
             {players}
+            <div className='submit-container' >
+                {disabled.toString()}
+                <Button variant="contained" disabled={!disabled}>Dobierz drużyny</Button>
+            </div>
         </div>
     );
 }
