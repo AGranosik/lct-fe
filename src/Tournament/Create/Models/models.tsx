@@ -10,3 +10,8 @@ export interface TournamentModel extends CreateTournamentModel{
     players: PlayerModel[];
     qrCode: string;
 }
+
+export interface DrawTeamModel{
+    playerId: string;
+    teamName: string;
+}

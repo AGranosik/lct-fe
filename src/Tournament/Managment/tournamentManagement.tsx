@@ -8,6 +8,7 @@ import { HubConnectionBuilder } from '@microsoft/signalr';
 import { addPlayer, selectTeam } from '../../redux/tournament/tournamentSlice.tsx';
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel.tsx';
 import Button from '@mui/material/Button';
+import { drawTeamsAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
 
 export default function TournamentManagement(){
     
@@ -18,13 +19,13 @@ export default function TournamentManagement(){
     const {id} = useParams();
     let players = [];
     const tournament = useSelector((state: Store) => {
-        players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name} - {player.selectedTeam}</div>)
+        players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name} - {player.selectedTeam} - {player.drawnTeam}</div>)
         console.log(state.tournament);
         return state.tournament
     });
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
-            .withUrl('https://localhost:7008/hubs/player')
+            .withUrl('http://192.168.1.11:7008/hubs/player')
             .withAutomaticReconnect()
             .build();
 
@@ -61,9 +62,9 @@ export default function TournamentManagement(){
             </div>
             <div>Managment</div>
             {players}
-            <div className='submit-container' >
+            <div className='submit-container'>
                 {disabled.toString()}
-                <Button variant="contained" disabled={!disabled}>Dobierz drużyny</Button>
+                <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id))} disabled={!disabled}>Dobierz drużyny</Button>
             </div>
         </div>
     );

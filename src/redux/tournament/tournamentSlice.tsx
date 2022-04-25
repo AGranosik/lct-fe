@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { selectTeamApi, SelectTeamApiModel } from "../../api/Team/teamApi.tsx";
-import { getTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
-import { createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
+import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
 import { PlayerModel } from "../../Player/Register/Models/PlayerModel.tsx";
 import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
-import { Store } from "../store";
 
 
 const initialState: TournamentModel = {
@@ -15,6 +13,14 @@ const initialState: TournamentModel = {
         qrCode: ''
     
 }
+
+export const drawTeamsAsyncThunk = createAsyncThunk(
+    'tournament/drawn',
+    async (tournamentId: string) => {
+        const response = await drawTeamsTournamentApi(tournamentId);
+        return response.data;
+    }
+)
 
 export const createTournamentAsyncThunk = createAsyncThunk(
     'tournament/create',
@@ -76,6 +82,20 @@ export const tournamentSlice = createSlice({
         });
         builder.addCase(selectTeamAsyncThunk.fulfilled, (state: TournamentModel, action) => {
             
+        });
+
+        builder.addCase(drawTeamsAsyncThunk.fulfilled, (state: TournamentModel, action) =>{
+            const payload = action.payload;
+            console.log(payload);
+            const tournamentPlayers = state.players;
+            for(let i=0; i < payload.length; i++){
+                const drawTeamPlayer = payload[i];
+                const playerIndex = tournamentPlayers.findIndex(p => p.id === drawTeamPlayer.playerId);
+                console.log(playerIndex);
+                if(playerIndex !== -1)
+                    tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName;
+            }
+            console.log('draw');
         });
     }
 });
