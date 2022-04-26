@@ -20,7 +20,6 @@ export default function TournamentManagement(){
     let players = [];
     const tournament = useSelector((state: Store) => {
         players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name} - {player.selectedTeam} - {player.drawnTeam}</div>)
-        console.log(state.tournament);
         return state.tournament
     });
     useEffect(() => {
@@ -32,9 +31,7 @@ export default function TournamentManagement(){
         dispatch(getTournamentAsyncThunk(id));
         setConnection(newConnection);
 
-        console.log(tournament.playerLimit);
         setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== ''));
-            console.log(disabled);
     }, [tournament.playerLimit]);
 
     useEffect(() => {
@@ -45,8 +42,6 @@ export default function TournamentManagement(){
                         dispatch(addPlayer(player));
                     });
                     connection.on(`${id}/select`, message => {
-                        console.log('select');
-                        console.log(tournament);
                         dispatch(selectTeam({ playerId: message.playerId,  team: message.team}));
                     })
                 })

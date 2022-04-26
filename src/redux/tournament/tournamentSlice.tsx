@@ -80,18 +80,16 @@ export const tournamentSlice = createSlice({
             state.playerLimit = playerLimit;
             return state;
         });
-        builder.addCase(selectTeamAsyncThunk.fulfilled, (state: TournamentModel, action) => {
-            
+        builder.addCase(selectTeamAsyncThunk.rejected, (state: TournamentModel, action) => {
+            console.log(action);
         });
 
         builder.addCase(drawTeamsAsyncThunk.fulfilled, (state: TournamentModel, action) =>{
             const payload = action.payload;
-            console.log(payload);
             const tournamentPlayers = state.players;
             for(let i=0; i < payload.length; i++){
                 const drawTeamPlayer = payload[i];
                 const playerIndex = tournamentPlayers.findIndex(p => p.id === drawTeamPlayer.playerId);
-                console.log(playerIndex);
                 if(playerIndex !== -1)
                     tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName;
             }

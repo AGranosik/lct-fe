@@ -14,7 +14,6 @@ export default function SelectTeam() {
     const [ selectedTeam, setSelectedTeam ] = useState('');
 
     const teams = useSelector((state: Store) => {
-        console.log(state);
         return state.teams
     });
 
@@ -35,8 +34,14 @@ export default function SelectTeam() {
             tournamentId: tournamentId,
             team: selectedTeam
         }))
-
-        navigate(`/management/${tournamentId}`);
+        .then(r => {
+            if(r.error){
+                console.log('error');
+            }
+            else{
+                navigate(`/management/${tournamentId}`);
+            }
+        });
     }
     return(
         <div className="team-container">

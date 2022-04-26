@@ -13,7 +13,7 @@ export const getTournamentApi = (params: string) => {
         params: {
             id: params
         }
-    })
+    });
 }
 
 export const drawTeamsTournamentApi = (tournamentId: string) => {
