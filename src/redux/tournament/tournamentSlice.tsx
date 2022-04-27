@@ -1,17 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { selectTeamApi, SelectTeamApiModel } from "../../api/Team/teamApi.tsx";
-import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from "../../api/Tournament/tournamentApi.tsx";
-import { PlayerModel } from "../../Player/Register/Models/PlayerModel.tsx";
+import { useNavigate } from "react-router-dom";
+import { selectTeamApi, SelectTeamApiModel } from "../../api/Team/teamApi";
+import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from "../../api/Tournament/tournamentApi";
+import { PlayerModel } from "../../Player/Register/Models/PlayerModel";
 import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
 
 
 const initialState: TournamentModel = {
-        name: '',
-        playerLimit: 0,
-        id: '',
-        players: [],
-        qrCode: ''
-    
+    tournamentName: '',
+    playerLimit: 0,
+    id: '',
+    players: [],
+    qrCode: '',
+    name: ""
 }
 
 export const drawTeamsAsyncThunk = createAsyncThunk(
@@ -52,7 +53,6 @@ export const tournamentSlice = createSlice({
     reducers: {
         addPlayer: (state: TournamentModel, action: PayloadAction<PlayerModel>) => {
             const addedPlayer = action.payload;
-            console.log(action.payload);
             const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === addedPlayer.name && player.surname === addedPlayer.surname);
             if(playerIndex === -1)
                 state.players.push(action.payload);
@@ -80,6 +80,9 @@ export const tournamentSlice = createSlice({
             state.playerLimit = playerLimit;
             return state;
         });
+        builder.addCase(selectTeamAsyncThunk.fulfilled, (state: TournamentModel, action) => {
+            // navigate(`/management/${state.id}`);
+        });
         builder.addCase(selectTeamAsyncThunk.rejected, (state: TournamentModel, action) => {
             console.log(action);
         });
@@ -93,7 +96,6 @@ export const tournamentSlice = createSlice({
                 if(playerIndex !== -1)
                     tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName;
             }
-            console.log('draw');
         });
     }
 });

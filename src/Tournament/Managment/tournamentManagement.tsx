@@ -2,40 +2,41 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Store } from '../../redux/store';
-import { getTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
+import { getTournamentAsyncThunk, addPlayer, selectTeam, drawTeamsAsyncThunk } from '../../redux/tournament/tournamentSlice';
 import './tournamentManagement.scss';
-import { HubConnectionBuilder } from '@microsoft/signalr';
-import { addPlayer, selectTeam } from '../../redux/tournament/tournamentSlice.tsx';
-import { PlayerModel } from '../../Player/Register/Models/PlayerModel.tsx';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { PlayerModel } from '../../Player/Register/Models/PlayerModel';
 import Button from '@mui/material/Button';
-import { drawTeamsAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
+import React from 'react';
 
 export default function TournamentManagement(){
     
-    const [connection, setConnection] = useState(null);
-    const [disabled, setDisabled] = useState(false);
+    const [connection, setConnection] = useState<HubConnection | null>(null);
+    const [disabled, setDisabled] = useState<boolean>(false);
     const dispatch = useDispatch();
     
-    const {id} = useParams();
-    let players = [];
+    const { id } = useParams();
+    let players: JSX.Element[] = [];
     const tournament = useSelector((state: Store) => {
         players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name} - {player.selectedTeam} - {player.drawnTeam}</div>)
         return state.tournament
     });
     useEffect(() => {
-        const newConnection = new HubConnectionBuilder()
-            .withUrl('http://192.168.1.11:7008/hubs/player')
-            .withAutomaticReconnect()
-            .build();
-
-        dispatch(getTournamentAsyncThunk(id));
-        setConnection(newConnection);
+        if(id){
+            const newConnection = new HubConnectionBuilder()
+                .withUrl('http://192.168.1.11:7008/hubs/player')
+                .withAutomaticReconnect()
+                .build();
+    
+            dispatch(getTournamentAsyncThunk(id));
+            setConnection(newConnection);
+        }
 
         setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== ''));
     }, [tournament.playerLimit]);
 
     useEffect(() => {
-        if (connection) {
+        if (connection && id) {
             connection.start()
                 .then(result => {
                     connection.on(id, (player: PlayerModel) => {
@@ -59,7 +60,7 @@ export default function TournamentManagement(){
             {players}
             <div className='submit-container'>
                 {disabled.toString()}
-                <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id))} disabled={!disabled}>Dobierz drużyny</Button>
+                <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id ?? ''))} disabled={!disabled}>Dobierz drużyny</Button>
             </div>
         </div>
     );

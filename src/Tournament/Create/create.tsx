@@ -5,12 +5,12 @@ import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../redux/store';
-import { createTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice.tsx';
+import { createTournamentAsyncThunk } from '../../redux/tournament/tournamentSlice';
 import './create.scss'
 import { CreateTournamentModel } from './Models/models';
 import {useNavigate} from "react-router-dom";
 
-export default function CreateTournament(props) {
+export default function CreateTournament() {
     const navigate = useNavigate();
     const tournament = useSelector((state: Store) => state.tournament);
     const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { _getTeamsUrl, _selectTeamUrl } from "../_variables.tsx"
+import { _getTeamsUrl, _selectTeamUrl } from "../_variables"
 
 export interface SelectTeamApiModel{
     playerId: string;

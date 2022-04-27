@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getTeamsApi } from "../../api/Team/teamApi.tsx";
+import { getTeamsApi } from "../../api/Team/teamApi";
 
 const initialState: string[] = [];
 

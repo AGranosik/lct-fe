@@ -4,15 +4,15 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { registerPlayerAsyncThunk } from "../../redux/player/playerSlice.tsx";
+import { registerPlayerAsyncThunk } from "../../redux/player/playerSlice";
 import { Store } from "../../redux/store";
-import { PlayerRegisterModel } from "./Models/playerRegisterModel.tsx";
+import { PlayerRegisterModel } from "./Models/playerRegisterModel";
 import './register.scss'
 export default function PlayerRegister(){
     const dispatch = useDispatch();
-    const {id} = useParams();
+    const { id } = useParams();
     const { register, handleSubmit, formState: { errors }} = useForm<PlayerRegisterModel>(); 
-    const onSubmit: SubmitHandler<PlayerRegisterModel> = (data: PlayerRegisterModel) => dispatch(registerPlayerAsyncThunk({...data, tournamentId: id}));
+    const onSubmit: SubmitHandler<PlayerRegisterModel> = (data: PlayerRegisterModel) => dispatch(registerPlayerAsyncThunk({...data, tournamentId: id ?? ''}));
     const player = useSelector((state: Store) => state.player);
     const navigate = useNavigate();
 

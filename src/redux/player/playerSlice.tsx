@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { registerPlayer } from "../../api/Tournament/tournamentApi.tsx";
-import { PlayerModel } from "../../Player/Register/Models/PlayerModel.tsx";
-import { PlayerRegisterModel } from "../../Player/Register/Models/playerRegisterModel.tsx";
+import { registerPlayer } from "../../api/Tournament/tournamentApi";
+import { PlayerModel } from "../../Player/Register/Models/PlayerModel";
+import { PlayerRegisterModel } from "../../Player/Register/Models/playerRegisterModel";
 
 const initialState: PlayerModel = {
     id: '',
     name: '',
-    surname: ''
+    surname: '',
+    selectedTeam: "",
+    drawnTeam: ""
 }
 
 export const registerPlayerAsyncThunk = createAsyncThunk(
