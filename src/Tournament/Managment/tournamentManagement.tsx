@@ -7,7 +7,7 @@ import './tournamentManagement.scss';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel';
 import Button from '@mui/material/Button';
-import {  } from '../../redux/tournament/tournamentSlice';
+import TournamentPlayer from './tournamentPlayer/tournamentPlayer';
 
 export default function TournamentManagement(){
     
@@ -16,9 +16,8 @@ export default function TournamentManagement(){
     const dispatch = useDispatch();
     
     const { id } = useParams();
-    let players: JSX.Element[] = [];
     const tournament = useSelector((state: Store) => {
-        players = state.tournament.players.map((player: PlayerModel) => <div key={player.name + player.surname}>{player.name} - {player.selectedTeam} - {player.drawnTeam}</div>)
+        
         return state.tournament
     });
     useEffect(() => {
@@ -52,11 +51,14 @@ export default function TournamentManagement(){
 
 
     return(
-        <div>
+        <div className='tournament'>
+            <div className='tournament-header'>
+                Zaskanuj kod qr będąc podłączonym do sieci Wifi
+            </div>
             <div className='qrCode-container'>
                 <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
             </div>
-            {players}
+            <TournamentPlayer></TournamentPlayer>
             <div className='submit-container'>
                 <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id ?? ''))} disabled={!disabled}>Dobierz drużyny</Button>
             </div>

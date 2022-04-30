@@ -1,6 +1,13 @@
-.qrCode-container{
-    img{
-        width: 200px;
-        height: 200px;
+.tournament{
+    text-align: center;
+    &-header{
+        margin-top: 1rem;
+        font-weight: 800;
+    }
+    .qrCode-container{
+        img{
+            width: 400px;
+            height: 400px;
+        }
     }
 }
