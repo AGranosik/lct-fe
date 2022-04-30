@@ -13,6 +13,7 @@ export default function TournamentManagement(){
     
     const [connection, setConnection] = useState<HubConnection | null>(null);
     const [disabled, setDisabled] = useState<boolean>(false);
+    const [available, setAvailable] = useState<boolean>(true);
     const dispatch = useDispatch();
     
     const { id } = useParams();
@@ -30,8 +31,8 @@ export default function TournamentManagement(){
             dispatch(getTournamentAsyncThunk(id));
             setConnection(newConnection);
         }
-
         setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== ''));
+        setAvailable(tournament.players.every((p: PlayerModel) => p.drawnTeam === '') && tournament.players?.length > 0);
     }, [tournament.playerLimit]);
 
     useEffect(() => {
@@ -49,6 +50,19 @@ export default function TournamentManagement(){
         }
     }, [connection]);
 
+    const drawTeamButton = () => {
+        if(available){
+            return (<div className='submit-container'>
+                    <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id ?? ''))} disabled={!disabled}>Dobierz drużyny</Button>
+                </div>)
+        }
+    }
+
+    const playerTable = () => {
+        if(tournament.players && tournament.players.length > 0){
+            return (<TournamentPlayer></TournamentPlayer>);
+        }
+    }
 
     return(
         <div className='tournament'>
@@ -58,10 +72,8 @@ export default function TournamentManagement(){
             <div className='qrCode-container'>
                 <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
             </div>
-            <TournamentPlayer></TournamentPlayer>
-            <div className='submit-container'>
-                <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id ?? ''))} disabled={!disabled}>Dobierz drużyny</Button>
-            </div>
+            {playerTable()}
+            {drawTeamButton()}
         </div>
     );
 }

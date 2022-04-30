@@ -6,6 +6,8 @@ import './tournamentPlayer.scss';
 export default function TournamentPlayer(){
     const players = useSelector((state: Store) => state.tournament.players);
 
+
+
     const playerDisplay = () => {
         return players.map((player: PlayerModel) => 
         <div key={player.name + player.surname} className="row">
@@ -22,22 +24,23 @@ export default function TournamentPlayer(){
     }
 
     return(
-    <div className="tournament-player-container">
-        <div className="tournament-player-table">
-            <div className="row tournament-player-table-headers">
-                <div className="header">
-                    Gracz
+        <div className="tournament-player-container">
+            <div className="tournament-player-table">
+                <div className="row tournament-player-table-headers">
+                    <div className="header">
+                        Gracz
+                    </div>
+                    <div className="header">
+                        Wybrana drużyna
+                    </div>
+                    <div className="header">
+                        Dobrana drużyna
+                    </div>
                 </div>
-                <div className="header">
-                    Wybrana drużyna
+                <div className="tournament-player-table-rows">
+                    {playerDisplay()}
                 </div>
-                <div className="header">
-                    Dobrana drużyna
-                </div>
-            </div>
-            <div className="tournament-player-table-rows">
-                {playerDisplay()}
             </div>
         </div>
-    </div>)
+    )
 }
