@@ -7,7 +7,7 @@ import './tournamentManagement.scss';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel';
 import Button from '@mui/material/Button';
-import React from 'react';
+import {  } from '../../redux/tournament/tournamentSlice';
 
 export default function TournamentManagement(){
     
@@ -56,10 +56,8 @@ export default function TournamentManagement(){
             <div className='qrCode-container'>
                 <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
             </div>
-            <div>Managment</div>
             {players}
             <div className='submit-container'>
-                {disabled.toString()}
                 <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id ?? ''))} disabled={!disabled}>Dobierz drużyny</Button>
             </div>
         </div>
