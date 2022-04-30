@@ -32,7 +32,9 @@ export default function TournamentManagement(){
             setConnection(newConnection);
         }
         setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== ''));
-        setAvailable(tournament.players.every((p: PlayerModel) => p.drawnTeam === '') && tournament.players?.length > 0);
+        console.log(tournament.players);
+        console.log(tournament.players.every((p: PlayerModel) => p.selectedTeam !== '' && (p.drawnTeam === '' || !p.drawnTeam)) && tournament.players?.length > 0);
+        setAvailable(tournament.players.every((p: PlayerModel) => p.selectedTeam !== '' && (p.drawnTeam === '' || !p.drawnTeam)) && tournament.players?.length > 0);
     }, [tournament.playerLimit]);
 
     useEffect(() => {
