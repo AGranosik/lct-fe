@@ -7,7 +7,7 @@ import './tournamentManagement.scss';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel';
 import Button from '@mui/material/Button';
-import TournamentPlayer from './tournamentPlayer/tournamentPlayer';
+import TournamentPlayer from './PlayersComponent/playersComponent';
 
 export default function TournamentManagement(){
     
