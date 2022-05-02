@@ -18,7 +18,6 @@ export default function SelectTeam() {
     });
 
     const player = useSelector((state: Store) => {
-        console.log('hehehe');
         return state.player;
     });
 
@@ -57,7 +56,6 @@ export default function SelectTeam() {
                 <Button onClick={() => selectTeam()}
                     variant="contained">Wybierz</Button>
             </div>
-            {selectedTeam}
         </div>
             )
 }

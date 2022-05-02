@@ -43,8 +43,6 @@ export const playerSlice = createSlice({
         });
         builder.addCase(selectTeamAsyncThunk.fulfilled, (state: PlayerModel, action) => {
             const { team, playerId } = action.meta.arg;
-            console.log(team);
-            console.log(playerId);
             state.selectedTeam = team;
             state.id = playerId;
         });
