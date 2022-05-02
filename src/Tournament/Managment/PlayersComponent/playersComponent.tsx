@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { PlayerModel } from "../../../Player/Register/Models/PlayerModel";
 import { Store } from "../../../redux/store";
-import './tournamentPlayer.scss';
+import './playersComponent.scss';
 
 export default function PlayersComponent(){
     const players = useSelector((state: Store) => state.tournament.players);

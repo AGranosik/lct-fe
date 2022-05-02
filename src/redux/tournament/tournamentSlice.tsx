@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
-import { selectTeamApi, SelectTeamApiModel } from "../../api/Team/teamApi";
 import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from "../../api/Tournament/tournamentApi";
 import { PlayerModel } from "../../Player/Register/Models/PlayerModel";
 import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
@@ -39,14 +37,6 @@ export const getTournamentAsyncThunk = createAsyncThunk(
     }
 )
 
-export const selectTeamAsyncThunk = createAsyncThunk(
-    'team/create',
-    async (data: SelectTeamApiModel) => {
-        const response = await selectTeamApi(data);
-        return response.data;
-    }
-)
-
 export const tournamentSlice = createSlice({
     name: 'tournament',
     initialState,
@@ -80,13 +70,6 @@ export const tournamentSlice = createSlice({
             state.playerLimit = playerLimit;
             return state;
         });
-        builder.addCase(selectTeamAsyncThunk.fulfilled, (state: TournamentModel, action) => {
-            // navigate(`/management/${state.id}`);
-        });
-        builder.addCase(selectTeamAsyncThunk.rejected, (state: TournamentModel, action) => {
-            console.log(action);
-        });
-
         builder.addCase(drawTeamsAsyncThunk.fulfilled, (state: TournamentModel, action) =>{
             const payload = action.payload;
             const tournamentPlayers = state.players;

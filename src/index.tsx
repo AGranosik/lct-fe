@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import CreateTournament from './Tournament/Create/create';
 import PlayerRegister from './Player/Register/register';
-import SelectTeam from './Player/SelectTeam/selectTeam';
+import SelectTeam from './Player/TeamSelection/teamSelection';
 
 ReactDOM.render(
   <React.StrictMode>

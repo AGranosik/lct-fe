@@ -2,10 +2,10 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { selectTeamAsyncThunk } from "../../redux/player/playerSlice";
 import { Store } from "../../redux/store";
 import { getTeamsAsyncThunk } from "../../redux/team/teamSlice";
-import { selectTeamAsyncThunk } from "../../redux/tournament/tournamentSlice";
-import './selectTeam.scss'
+import './teamSelection.scss'
 
 export default function SelectTeam() {
     const {tournamentId, playerId} = useParams();
@@ -17,9 +17,19 @@ export default function SelectTeam() {
         return state.teams
     });
 
+    const player = useSelector((state: Store) => {
+        console.log('hehehe');
+        return state.player;
+    });
+
     useEffect(() => {
         dispatch(getTeamsAsyncThunk());
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if(player && player.selectedTeam !== '')
+            navigate(`/management/${tournamentId}`);
+    }, [player])
 
     const teamsToSelectList = () => {
         return teams.map((team: string) => {
