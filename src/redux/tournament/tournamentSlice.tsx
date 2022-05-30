@@ -1,8 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from "../../api/Tournament/tournamentApi";
-import { PlayerModel } from "../../Player/Register/Models/PlayerModel";
-import { CreateTournamentModel, TournamentModel } from "../../Tournament/Create/Models/models";
-
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from '../../api/Tournament/tournamentApi'
+import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
+import { CreateTournamentModel, TournamentModel } from '../../Tournament/Create/Models/models'
 
 const initialState: TournamentModel = {
     tournamentName: '',
@@ -10,30 +9,30 @@ const initialState: TournamentModel = {
     id: '',
     players: [],
     qrCode: '',
-    name: ""
+    name: ''
 }
 
 export const drawTeamsAsyncThunk = createAsyncThunk(
     'tournament/drawn',
     async (tournamentId: string) => {
-        const response = await drawTeamsTournamentApi(tournamentId);
-        return response.data;
+        const response = await drawTeamsTournamentApi(tournamentId)
+        return response.data
     }
 )
 
 export const createTournamentAsyncThunk = createAsyncThunk(
     'tournament/create',
     async (data: CreateTournamentModel, thunkAPI) => {
-        const response = await createTournamentApi(data);
-        return response.data;
+        const response = await createTournamentApi(data)
+        return response.data
     }
 )
 
 export const getTournamentAsyncThunk = createAsyncThunk(
     'tournament/get',
     async (data: string, thunkAPI) => {
-        const response = await getTournamentApi(data);
-        return response.data;
+        const response = await getTournamentApi(data)
+        return response.data
     }
 )
 
@@ -42,47 +41,50 @@ export const tournamentSlice = createSlice({
     initialState,
     reducers: {
         addPlayer: (state: TournamentModel, action: PayloadAction<PlayerModel>) => {
-            const addedPlayer = action.payload;
-            const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === addedPlayer.name && player.surname === addedPlayer.surname);
-            if(playerIndex === -1)
-                state.players.push(action.payload);
+            const addedPlayer = action.payload
+            const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === addedPlayer.name && player.surname === addedPlayer.surname)
+            if (playerIndex === -1) {
+                state.players.push(action.payload)
+            }
         },
         selectTeam: (state: TournamentModel, action: PayloadAction<{playerId: string, team: string}>) => {
-            const playerIndex = state.players.findIndex((player: PlayerModel) => player.id === action.payload.playerId);
-            if(playerIndex !== -1)
-                state.players[playerIndex].selectedTeam = action.payload.team;
+            const playerIndex = state.players.findIndex((player: PlayerModel) => player.id === action.payload.playerId)
+            if (playerIndex !== -1) {
+                state.players[playerIndex].selectedTeam = action.payload.team
+            }
         }
     },
     extraReducers: (builder) => {
         builder.addCase(createTournamentAsyncThunk.fulfilled, (state: TournamentModel, action) => {
-            const {name, playerLimit} = action.meta.arg;
+            const { name, playerLimit } = action.meta.arg
             state.name = name
             state.playerLimit = playerLimit
-            state.id = action.payload;
-            return state;
-        });
+            state.id = action.payload
+            return state
+        })
         builder.addCase(getTournamentAsyncThunk.fulfilled, (state: TournamentModel, action) => {
-            const {id, tournamentName, qrCode, players, playerLimit} = action.payload;
-            state.name = tournamentName;
-            state.qrCode = qrCode;
-            state.players = players;
-            state.id = id;
-            state.playerLimit = playerLimit;
-            return state;
-        });
+            const { id, tournamentName, qrCode, players, playerLimit } = action.payload
+            state.name = tournamentName
+            state.qrCode = qrCode
+            state.players = players
+            state.id = id
+            state.playerLimit = playerLimit
+            return state
+        })
         builder.addCase(drawTeamsAsyncThunk.fulfilled, (state: TournamentModel, action) =>{
-            const payload = action.payload;
-            const tournamentPlayers = state.players;
-            for(let i=0; i < payload.length; i++){
-                const drawTeamPlayer = payload[i];
-                const playerIndex = tournamentPlayers.findIndex(p => p.id === drawTeamPlayer.playerId);
-                if(playerIndex !== -1)
-                    tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName;
+            const payload = action.payload
+            const tournamentPlayers = state.players
+            for (let i = 0; i < payload.length; i++) {
+                const drawTeamPlayer = payload[i]
+                const playerIndex = tournamentPlayers.findIndex(p => p.id === drawTeamPlayer.playerId)
+                if (playerIndex !== -1) {
+                    tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName
+                }
             }
-        });
+        })
     }
-});
+})
 
-export const { addPlayer, selectTeam } = tournamentSlice.actions;
+export const { addPlayer, selectTeam } = tournamentSlice.actions
 
-export default tournamentSlice.reducer;
+export default tournamentSlice.reducer

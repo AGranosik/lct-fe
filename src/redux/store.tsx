@@ -11,11 +11,10 @@ export interface Store {
     teams: string[]
 }
 
-
 export default configureStore({
     reducer: {
         tournament: tournamentSlice,
         player: playerSlice,
-        teams: teamsSlice,
-    },
+        teams: teamsSlice
+    }
 })

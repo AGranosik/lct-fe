@@ -1,27 +1,26 @@
-import { ErrorMessage } from "@hookform/error-message";
-import { Button, TextField } from "@mui/material";
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { registerPlayerAsyncThunk } from "../../redux/player/playerSlice";
-import { Store } from "../../redux/store";
-import { PlayerRegisterModel } from "./Models/playerRegisterModel";
+import { ErrorMessage } from '@hookform/error-message'
+import { Button, TextField } from '@mui/material'
+import React, { useEffect } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { registerPlayerAsyncThunk } from '../../redux/player/playerSlice'
+import { Store } from '../../redux/store'
+import { PlayerRegisterModel } from './Models/playerRegisterModel'
 import './register.scss'
-export default function PlayerRegister(){
-    const dispatch = useDispatch();
-    const { id } = useParams();
-    const { register, handleSubmit, formState: { errors }} = useForm<PlayerRegisterModel>(); 
-    const onSubmit: SubmitHandler<PlayerRegisterModel> = (data: PlayerRegisterModel) => dispatch(registerPlayerAsyncThunk({...data, tournamentId: id ?? ''}));
-    const player = useSelector((state: Store) => state.player);
-    const navigate = useNavigate();
+export default function PlayerRegister () {
+    const dispatch = useDispatch()
+    const { id } = useParams()
+    const { register, handleSubmit, formState: { errors } } = useForm<PlayerRegisterModel>()
+    const onSubmit: SubmitHandler<PlayerRegisterModel> = (data: PlayerRegisterModel) => dispatch(registerPlayerAsyncThunk({ ...data, tournamentId: id ?? '' }))
+    const player = useSelector((state: Store) => state.player)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        if(player.id)
-            navigate(`/player/select/${id}/${player.id}`);
+        if (player.id) { navigate(`/player/select/${id}/${player.id}`) }
     })
 
-    return(
+    return (
         <div className="registration-container">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='input-container name-container'>

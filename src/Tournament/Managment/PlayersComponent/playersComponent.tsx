@@ -1,29 +1,28 @@
-import { useSelector } from "react-redux";
-import { PlayerModel } from "../../../Player/Register/Models/PlayerModel";
-import { Store } from "../../../redux/store";
-import './playersComponent.scss';
+import { useSelector } from 'react-redux'
+import { PlayerModel } from '../../../Player/Register/Models/PlayerModel'
+import { Store } from '../../../redux/store'
+import React from 'react'
+import './playersComponent.scss'
 
-export default function PlayersComponent(){
-    const players = useSelector((state: Store) => state.tournament.players);
-
-
+export default function PlayersComponent () {
+    const players = useSelector((state: Store) => state.tournament.players)
 
     const playerDisplay = () => {
-        return players.map((player: PlayerModel) => 
-        <div key={player.name + player.surname} className="row">
-            <div className="tournament-player-info">
-                {player.name}
-            </div>
-            <div className="tournament-player-info">
-                {player.selectedTeam}
-            </div>
-            <div className="tournament-player-info">
-                {player.drawnTeam}
-            </div>
-        </div>)
+        return players.map((player: PlayerModel) =>
+            <div key={player.name + player.surname} className="row">
+                <div className="tournament-player-info">
+                    {player.name}
+                </div>
+                <div className="tournament-player-info">
+                    {player.selectedTeam}
+                </div>
+                <div className="tournament-player-info">
+                    {player.drawnTeam}
+                </div>
+            </div>)
     }
 
-    return(
+    return (
         <div className="tournament-player-container">
             <div className="tournament-player-table">
                 <div className="row tournament-player-table-headers">
