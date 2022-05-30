@@ -3,6 +3,6 @@ import React from 'react'
 
 export default function SelectedTeam () {
     return (
-        <div>hehe</div>
+        <div className='team-selected'>Oczekuj na pozostałych</div>
     )
 }
