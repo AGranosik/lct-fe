@@ -26,7 +26,7 @@ export default function SelectTeam () {
     }, [])
 
     useEffect(() => {
-        if (player && player.selectedTeam !== '') { navigate(`/management/${tournamentId}`) }
+        if (player && player.selectedTeam !== '') { navigate('/player/selected') }
     }, [player])
 
     const teamsToSelectList = () => {
