@@ -1,22 +1,22 @@
-import axios from "axios";
-import { CreateTournamentModel, DrawTeamModel, TournamentModel } from "../../Tournament/Create/Models/models";
-import { PlayerRegisterModel } from '../../Player/Register/Models/playerRegisterModel';
-import { _baseUrl } from "../_globalVariables";
+import axios from 'axios'
+import { CreateTournamentModel, DrawTeamModel, TournamentModel } from '../../Tournament/Create/Models/models'
+import { PlayerRegisterModel } from '../../Player/Register/Models/playerRegisterModel'
+import { _baseUrl } from '../_globalVariables'
 
 export const createTournamentApi = (data: CreateTournamentModel) => {
     return axios.post<string>(`${_tournamentUrl}/create`, data)
 }
 
-const _tournamentUrl = `${_baseUrl}/tournament`;
-const _registerPlayerUrl = `${_baseUrl}/tournament/assignPlayer`;
-const _drawTeamUrl = `${_tournamentUrl}/draw`;
+const _tournamentUrl = `${_baseUrl}/tournament`
+const _registerPlayerUrl = `${_baseUrl}/tournament/assignPlayer`
+const _drawTeamUrl = `${_tournamentUrl}/draw`
 
 export const getTournamentApi = (params: string) => {
     return axios.get<TournamentModel>(`${_tournamentUrl}`, {
         params: {
             id: params
         }
-    });
+    })
 }
 
 export const drawTeamsTournamentApi = (tournamentId: string) => {
@@ -28,5 +28,5 @@ export const drawTeamsTournamentApi = (tournamentId: string) => {
 }
 
 export const registerPlayer = (data: PlayerRegisterModel) => {
-    return axios.post<string>(`${_registerPlayerUrl}`, data);
+    return axios.post<string>(`${_registerPlayerUrl}`, data)
 }

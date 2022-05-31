@@ -71,7 +71,7 @@ export const tournamentSlice = createSlice({
             state.playerLimit = playerLimit
             return state
         })
-        builder.addCase(drawTeamsAsyncThunk.fulfilled, (state: TournamentModel, action) =>{
+        builder.addCase(drawTeamsAsyncThunk.fulfilled, (state: TournamentModel, action) => {
             const payload = action.payload
             const tournamentPlayers = state.players
             for (let i = 0; i < payload.length; i++) {

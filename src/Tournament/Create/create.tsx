@@ -31,7 +31,7 @@ export default function CreateTournament () {
                     </div>
                 </div>
                 <div className='input-container numberOfPlayers-container'>
-                    <TextField error={!!errors.playerLimit} fullWidth label="Liczba graczy" {...register('playerLimit', { required: true, min: 1, max: {value: 20, message: 'Maksymalna wartość wynosi: 20'}})} />
+                    <TextField error={!!errors.playerLimit} fullWidth label="Liczba graczy" {...register('playerLimit', { required: true, min: 1, max: { value: 20, message: 'Maksymalna wartość wynosi: 20' } })} />
                     <div className='error-container'>
                         <ErrorMessage errors={errors} name="playerLimit" />
                     </div>
