@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Store } from '../../redux/store'
-import { getTournamentAsyncThunk, drawTeamsAsyncThunk, addPlayer } from '../../redux/tournament/tournamentSlice'
+import { getTournamentAsyncThunk, drawTeamsAsyncThunk, addPlayer, selectTeam } from '../../redux/tournament/tournamentSlice'
 import './tournamentManagement.scss'
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr'
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
@@ -41,11 +41,14 @@ export default function TournamentManagement () {
             connection.start()
                 .then(result => {
                     connection.on(id, (model: any) => {
-                        console.log(model)
-                        if (model.type === 'PlayerAssigned') {
-                            dispatch(addPlayer({
-                                name: model.name, surname: model.surname
-                            } as PlayerModel))
+                        if (id === model.tournamentId) {
+                            if (model.type === 'PlayerAssigned') {
+                                dispatch(addPlayer({
+                                    name: model.name, surname: model.surname
+                                } as PlayerModel))
+                            } else if (model.type === 'TeamSelected') {
+                                dispatch(selectTeam({ playerId: model.playerId, team: model.team }))
+                            }
                         }
                     })
                     // connection.on(`${id}/select`, message => {
