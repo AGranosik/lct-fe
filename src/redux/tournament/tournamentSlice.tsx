@@ -49,6 +49,7 @@ export const tournamentSlice = createSlice({
         },
         selectTeam: (state: TournamentModel, action: PayloadAction<{playerId: string, team: string}>) => {
             const playerIndex = state.players.findIndex((player: PlayerModel) => player.id === action.payload.playerId)
+            console.log(playerIndex)
             if (playerIndex !== -1) {
                 state.players[playerIndex].selectedTeam = action.payload.team
             }

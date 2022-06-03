@@ -17,6 +17,7 @@ export default function TournamentManagement () {
 
     const { id } = useParams()
     const tournament = useSelector((state: Store) => {
+        console.log(state)
         return state.tournament
     })
     useEffect(() => {
@@ -44,16 +45,13 @@ export default function TournamentManagement () {
                         if (id === model.tournamentId) {
                             if (model.type === 'PlayerAssigned') {
                                 dispatch(addPlayer({
-                                    name: model.name, surname: model.surname
+                                    name: model.name, surname: model.surname, id: model.playerId
                                 } as PlayerModel))
                             } else if (model.type === 'TeamSelected') {
                                 dispatch(selectTeam({ playerId: model.playerId, team: model.team }))
                             }
                         }
                     })
-                    // connection.on(`${id}/select`, message => {
-                    //     dispatch(selectTeam({ playerId: message.playerId, team: message.team }))
-                    // })
                 })
                 .catch(e => console.log('Connection failed: ', e))
         }
