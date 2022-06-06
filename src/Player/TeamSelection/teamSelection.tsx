@@ -1,3 +1,4 @@
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr'
 import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +9,7 @@ import { getTeamsAsyncThunk } from '../../redux/team/teamSlice'
 import './teamSelection.scss'
 
 export default function SelectTeam () {
+    const [connection, setConnection] = useState<HubConnection | null>(null)
     const { tournamentId, playerId } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -22,12 +24,35 @@ export default function SelectTeam () {
     })
 
     useEffect(() => {
+        const newConnection = new HubConnectionBuilder()
+            .withUrl('http://192.168.1.11:7008/hubs/player')
+            .withAutomaticReconnect()
+            .build()
+
+        setConnection(newConnection)
         dispatch(getTeamsAsyncThunk())
     }, [])
 
     useEffect(() => {
         if (player && player.selectedTeam !== '') { navigate('/player/selected') }
     }, [player])
+
+    useEffect(() => {
+        console.log(tournamentId)
+        if (tournamentId) {
+            connection?.start()
+                .then(result => {
+                    connection.on(tournamentId, (model: any) => {
+                        console.log(model)
+                        if (model.tournamentId === tournamentId) {
+                            if (model.type === 'TeamSelected' && model.playerId !== playerId) {
+                                console.log('herer')
+                            }
+                        }
+                    })
+                })
+        }
+    }, [connection])
 
     const teamsToSelectList = () => {
         return teams.map((team: string) => {
