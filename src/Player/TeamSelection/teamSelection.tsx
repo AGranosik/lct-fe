@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { selectTeamAsyncThunk } from '../../redux/player/playerSlice'
 import { Store } from '../../redux/store'
 import { getTeamsAsyncThunk } from '../../redux/team/teamSlice'
+import { TeamModel } from './Models/team'
 import './teamSelection.scss'
 
 export default function SelectTeam () {
@@ -15,8 +16,8 @@ export default function SelectTeam () {
     const navigate = useNavigate()
     const [selectedTeam, setSelectedTeam] = useState('')
 
-    const teams = useSelector((state: Store) => {
-        return state.teams
+    const teams : TeamModel[] = useSelector((state: Store) => {
+        return state.teams.map((team: string) => ({ name: team, selected: false}))
     })
 
     const player = useSelector((state: Store) => {
@@ -46,7 +47,11 @@ export default function SelectTeam () {
                         console.log(model)
                         if (model.tournamentId === tournamentId) {
                             if (model.type === 'TeamSelected' && model.playerId !== playerId) {
-                                console.log('herer')
+                                const teamIndex = teams.findIndex((team: TeamModel) => team.name === model.team)
+                                console.log(teamIndex)
+                                if (teamIndex !== -1) {
+                                    teams[teamIndex].selected = true
+                                }
                             }
                         }
                     })

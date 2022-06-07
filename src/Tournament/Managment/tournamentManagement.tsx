@@ -17,7 +17,6 @@ export default function TournamentManagement () {
 
     const { id } = useParams()
     const tournament = useSelector((state: Store) => {
-        console.log(state)
         return state.tournament
     })
     useEffect(() => {
