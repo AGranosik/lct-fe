@@ -17,7 +17,8 @@ export default function SelectTeam () {
     const [selectedTeam, setSelectedTeam] = useState('')
 
     const teams : TeamModel[] = useSelector((state: Store) => {
-        return state.teams.map((team: string) => ({ name: team, selected: false}))
+        console.log('here')
+        return state.teams.map((team: string) => ({ name: team, selected: false }))
     })
 
     const player = useSelector((state: Store) => {
@@ -25,13 +26,13 @@ export default function SelectTeam () {
     })
 
     useEffect(() => {
+        console.log('empty')
         const newConnection = new HubConnectionBuilder()
             .withUrl('http://192.168.1.11:7008/hubs/player')
             .withAutomaticReconnect()
             .build()
 
         setConnection(newConnection)
-        dispatch(getTeamsAsyncThunk())
     }, [])
 
     useEffect(() => {
@@ -39,17 +40,20 @@ export default function SelectTeam () {
     }, [player])
 
     useEffect(() => {
-        console.log(tournamentId)
-        if (tournamentId) {
+        dispatch(getTeamsAsyncThunk())
+        console.log(teams)
+        if (tournamentId && teams.length) {
             connection?.start()
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
                         console.log(model)
+                        console.log(teams)
                         if (model.tournamentId === tournamentId) {
                             if (model.type === 'TeamSelected' && model.playerId !== playerId) {
                                 const teamIndex = teams.findIndex((team: TeamModel) => team.name === model.team)
                                 console.log(teamIndex)
                                 if (teamIndex !== -1) {
+                                    console.log('here')
                                     teams[teamIndex].selected = true
                                 }
                             }
@@ -60,8 +64,10 @@ export default function SelectTeam () {
     }, [connection])
 
     const teamsToSelectList = () => {
-        return teams.map((team: string) => {
-            return (<div key={team} onClick={() => setSelectedTeam(team)} className={team === selectedTeam ? 'selected team' : 'team'} >{team}</div>)
+        return teams.map((team: TeamModel) => {
+            let classes = team.name === selectedTeam ? 'selected team ' : 'team '
+            classes += team.selected ? 'team-occupied' : ''
+            return (<div key={team.name} onClick={() => setSelectedTeam(team.name)} className={classes}>{team.name}</div>)
         })
     }
 
