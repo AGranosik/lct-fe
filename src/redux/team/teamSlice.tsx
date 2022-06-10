@@ -1,22 +1,30 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getTeamsApi } from '../../api/Team/teamApi'
+import { TeamModel } from '../../Player/TeamSelection/Models/team'
 
-const initialState: string[] = []
+const initialState: TeamModel[] = []
 
 export const getTeamsAsyncThunk = createAsyncThunk(
     'teams/get',
     async () => {
         const response = await getTeamsApi()
-        return response.data
+        return response.data.map((team: string) => ({ name: team, selected: false }))
     }
 )
 
 export const teamsSlice = createSlice({
     name: 'teams',
     initialState,
-    reducers: {},
+    reducers: {
+        teamSelected: (state: TeamModel[], action: PayloadAction<string>) => {
+            const teamIndex = state.findIndex((team: TeamModel) => team.name === action.payload)
+            if (teamIndex !== -1) {
+                state[teamIndex].selected = true
+            }
+        }
+    },
     extraReducers: (builder) => {
-        builder.addCase(getTeamsAsyncThunk.fulfilled, (state: string[], action) => {
+        builder.addCase(getTeamsAsyncThunk.fulfilled, (state: TeamModel[], action) => {
             state = action.payload
             return state
         })
@@ -24,3 +32,5 @@ export const teamsSlice = createSlice({
 })
 
 export default teamsSlice.reducer
+
+export const { teamSelected } = teamsSlice.actions
