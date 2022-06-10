@@ -56,12 +56,19 @@ export default function SelectTeam () {
         return teams.map((team: TeamModel) => {
             let classes = team.name === selectedTeam ? 'selected team ' : 'team '
             classes += team.selected ? 'team-occupied' : ''
-            return (<div key={team.name} onClick={() => setSelectedTeam(team.name)} className={classes}>{team.name}</div>)
+            return (<div key={team.name} onClick={() => teamOnClick(team.name)} className={classes}>{team.name}</div>)
         })
     }
 
+    const teamOnClick = (name: string) => {
+        const selectedTeamIndex = teams.findIndex((team: TeamModel) => team.selected && team.name === name)
+        if (selectedTeamIndex === -1) {
+            setSelectedTeam(name)
+        }
+    }
+
     const selectTeam = () => {
-        if (playerId && tournamentId) {
+        if (playerId && tournamentId && selectedTeam !== '') {
             dispatch(selectTeamAsyncThunk({
                 playerId,
                 tournamentId,
