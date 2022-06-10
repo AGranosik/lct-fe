@@ -17,11 +17,12 @@ export default function SelectTeam () {
     const [selectedTeam, setSelectedTeam] = useState('')
 
     const teams : TeamModel[] = useSelector((state: Store) => {
-        console.log('here')
+        console.log('team selector')
         return state.teams.map((team: string) => ({ name: team, selected: false }))
     })
 
     const player = useSelector((state: Store) => {
+        console.log('player selector')
         return state.player
     })
 
@@ -32,20 +33,17 @@ export default function SelectTeam () {
             .withAutomaticReconnect()
             .build()
 
+        dispatch(getTeamsAsyncThunk())
         setConnection(newConnection)
     }, [])
 
     useEffect(() => {
-        if (player && player.selectedTeam !== '') { navigate('/player/selected') }
-    }, [player])
-
-    useEffect(() => {
-        dispatch(getTeamsAsyncThunk())
-        console.log(teams)
-        if (tournamentId && teams.length) {
+        console.log('teams effect')
+        if (connection && tournamentId && teams.length) {
             connection?.start()
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
+                        console.log('inside connection')
                         console.log(model)
                         console.log(teams)
                         if (model.tournamentId === tournamentId) {
@@ -53,17 +51,26 @@ export default function SelectTeam () {
                                 const teamIndex = teams.findIndex((team: TeamModel) => team.name === model.team)
                                 console.log(teamIndex)
                                 if (teamIndex !== -1) {
-                                    console.log('here')
-                                    teams[teamIndex].selected = true
+                                    teams[teamIndex].selected = true // need to override reference probably
+                                    console.log(teams)
                                 }
                             }
                         }
                     })
                 })
         }
+    }, [teams.length])
+    useEffect(() => {
+        if (player && player.selectedTeam !== '') { navigate('/player/selected') }
+    }, [player])
+
+    useEffect(() => {
+        console.log('connection effect')
+        console.log(teams)
     }, [connection])
 
     const teamsToSelectList = () => {
+        console.log('team select')
         return teams.map((team: TeamModel) => {
             let classes = team.name === selectedTeam ? 'selected team ' : 'team '
             classes += team.selected ? 'team-occupied' : ''
