@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { TeamModel } from '../../Player/TeamSelection/Models/team'
 import { _baseUrl } from '../_globalVariables'
 
 const _getTeamsUrl = `${_baseUrl}/team`
@@ -10,8 +11,12 @@ export interface SelectTeamApiModel{
     team: string;
 }
 
-export const getTeamsApi = () => {
-    return axios.get<string[]>(`${_getTeamsUrl}`)
+export const getTeamsApi = (tournamentId: string) => {
+    return axios.get<TeamModel[]>(`${_getTeamsUrl}`, {
+        params: {
+            tournamentId
+        }
+    })
 }
 
 export const selectTeamApi = (data: SelectTeamApiModel) => {

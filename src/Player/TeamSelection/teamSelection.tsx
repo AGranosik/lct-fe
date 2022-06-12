@@ -30,7 +30,9 @@ export default function SelectTeam () {
             .withAutomaticReconnect()
             .build()
 
-        dispatch(getTeamsAsyncThunk())
+        if (tournamentId) {
+            dispatch(getTeamsAsyncThunk(tournamentId))
+        }
         setConnection(newConnection)
     }, [])
 

@@ -6,9 +6,9 @@ const initialState: TeamModel[] = []
 
 export const getTeamsAsyncThunk = createAsyncThunk(
     'teams/get',
-    async () => {
-        const response = await getTeamsApi()
-        return response.data.map((team: string) => ({ name: team, selected: false }))
+    async (tournamentId: string) => {
+        const response = await getTeamsApi(tournamentId)
+        return response.data
     }
 )
 
