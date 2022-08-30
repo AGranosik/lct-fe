@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { selectTeamApi, SelectTeamApiModel } from '../../api/Team/teamApi'
-import { registerPlayer } from '../../api/Tournament/tournamentApi'
+import { selectTeamApi, SelectTeamApiModel } from '../../backendConnections/api/Team/teamApi'
+import { registerPlayer } from '../../backendConnections/api/Tournament/tournamentApi' 
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
 import { PlayerRegisterModel } from '../../Player/Register/Models/playerRegisterModel'
 

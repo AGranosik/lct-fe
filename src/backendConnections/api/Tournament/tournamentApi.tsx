@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { CreateTournamentModel, DrawTeamModel, TournamentModel } from '../../Tournament/Create/Models/models'
-import { PlayerRegisterModel } from '../../Player/Register/Models/playerRegisterModel'
-import { _baseUrl } from '../_globalVariables'
+import { CreateTournamentModel, DrawTeamModel, TournamentModel } from '../../../Tournament/Create/Models/models'
+import { PlayerRegisterModel } from '../../../Player/Register/Models/playerRegisterModel'
+import { _baseUrl } from '../../_globalVariables'
 
 export const createTournamentApi = (data: CreateTournamentModel) => {
     return axios.post<string>(`${_tournamentUrl}/create`, data)

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { TeamModel } from '../../Player/TeamSelection/Models/team'
-import { _baseUrl } from '../_globalVariables'
+import { TeamModel } from '../../../Player/TeamSelection/Models/team'
+import { _baseUrl } from '../../_globalVariables'
 
 const _getTeamsUrl = `${_baseUrl}/team`
 const _selectTeamUrl = `${_baseUrl}/team/select`
