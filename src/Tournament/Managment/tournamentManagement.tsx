@@ -22,7 +22,7 @@ export default function TournamentManagement () {
     useEffect(() => {
         if (id) {
             const newConnection = new HubConnectionBuilder()
-                .withUrl('http://192.168.1.11:7008/hubs/player')
+                .withUrl('http://192.168.1.11:6008/hubs/player')
                 .withAutomaticReconnect()
                 .build()
 
@@ -80,6 +80,7 @@ export default function TournamentManagement () {
             </div>
             {playerTable()}
             {drawTeamButton()}
+            <button onClick={() => connection?.send('SendMessage', 'hehe')}>hehe</button>
         </div>
     )
 }
