@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from '../../api/Tournament/tournamentApi'
+import { drawTeamsTournamentApi, getTournamentApi, createTournamentApi } from '../../backendConnections/api/Tournament/tournamentApi'
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
 import { CreateTournamentModel, TournamentModel } from '../../Tournament/Create/Models/models'
 

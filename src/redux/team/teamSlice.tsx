@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getTeamsApi } from '../../api/Team/teamApi'
+import { getTeamsApi } from '../../backendConnections/api/Team/teamApi'
 import { TeamModel } from '../../Player/TeamSelection/Models/team'
 
 const initialState: TeamModel[] = []
