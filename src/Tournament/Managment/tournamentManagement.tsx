@@ -42,7 +42,7 @@ export default function TournamentManagement () {
                         if (id === model.tournamentId) {
                             if (model.type === 'PlayerAssigned') {
                                 dispatch(addPlayer({
-                                    name: model.name, surname: model.surname, id: model.playerId
+                                    name: model.name, surname: model.surname
                                 } as PlayerModel))
                             } else if (model.type === 'TeamSelected') {
                                 dispatch(selectTeam({ playerId: model.playerId, team: model.team }))

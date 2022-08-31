@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { TeamModel } from '../../../Player/TeamSelection/Models/team'
-import { _baseUrl } from '../../_globalVariables'
+import { _baseApiUrl } from '../../_globalVariables'
 
-const _getTeamsUrl = `${_baseUrl}/team`
-const _selectTeamUrl = `${_baseUrl}/team/select`
+const _getTeamsUrl = `${_baseApiUrl}/team`
+const _selectTeamUrl = `${_baseApiUrl}/team/select`
 
 export interface SelectTeamApiModel{
     playerId: string;

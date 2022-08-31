@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { CreateTournamentModel, DrawTeamModel, TournamentModel } from '../../../Tournament/Create/Models/models'
 import { PlayerRegisterModel } from '../../../Player/Register/Models/playerRegisterModel'
-import { _baseUrl } from '../../_globalVariables'
+import { _baseApiUrl } from '../../_globalVariables'
 
 export const createTournamentApi = (data: CreateTournamentModel) => {
     return axios.post<string>(`${_tournamentUrl}/create`, data)
 }
 
-const _tournamentUrl = `${_baseUrl}/tournament`
-const _registerPlayerUrl = `${_baseUrl}/tournament/assignPlayer`
+const _tournamentUrl = `${_baseApiUrl}/tournament`
+const _registerPlayerUrl = `${_baseApiUrl}/tournament/assignPlayer`
 const _drawTeamUrl = `${_tournamentUrl}/draw`
 
 export const getTournamentApi = (params: string) => {
