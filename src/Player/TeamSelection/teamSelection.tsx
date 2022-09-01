@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Store } from '../../redux/store'
-import { getTeamsAsyncThunk } from '../../redux/team/teamSlice'
+import { getTeamsAsyncThunk, teamSelected } from '../../redux/team/teamSlice'
 import { TeamModel } from './Models/team'
 import './teamSelection.scss'
 import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
@@ -35,11 +35,11 @@ export default function SelectTeam () {
             connection?.start()
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
-                        // if (model.tournamentId === tournamentId) {
-                        //     if (model.type === 'TeamSelected' && model.playerId !== playerId) {
-                        //         dispatch(teamSelected(model.team))
-                        //     }
-                        // }
+                        if (model.tournamentId === tournamentId) {
+                            if (model.type === 'TeamSelected' && model.playerName !== playerName && model.playerSurname !== playerSurname) {
+                                dispatch(teamSelected(model.team))
+                            }
+                        }
                     })
                 })
         }
