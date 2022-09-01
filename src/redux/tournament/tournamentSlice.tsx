@@ -74,13 +74,13 @@ export const tournamentSlice = createSlice({
         })
         builder.addCase(drawTeamsAsyncThunk.fulfilled, (state: TournamentModel, action) => {
             const payload = action.payload
-            // const tournamentPlayers = state.players
+            const tournamentPlayers = state.players
             for (let i = 0; i < payload.length; i++) {
-                // const drawTeamPlayer = payload[i]
-                // const playerIndex = tournamentPlayers.findIndex(p => p.id === drawTeamPlayer.playerId)
-                // if (playerIndex !== -1) {
-                //     tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName
-                // }
+                const drawTeamPlayer = payload[i]
+                const playerIndex = tournamentPlayers.findIndex(p => p.name === drawTeamPlayer.name && p.surname === drawTeamPlayer.surname) // player comaprision globally somewhere
+                if (playerIndex !== -1) {
+                    tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName
+                }
             }
         })
     }

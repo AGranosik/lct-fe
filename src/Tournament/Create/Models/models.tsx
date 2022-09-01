@@ -13,6 +13,7 @@ export interface TournamentModel extends CreateTournamentModel{
 }
 
 export interface DrawTeamModel{
-    playerId: string;
+    name: string;
+    surname: string;
     teamName: string;
 }

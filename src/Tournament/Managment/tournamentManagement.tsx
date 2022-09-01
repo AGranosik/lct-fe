@@ -78,7 +78,6 @@ export default function TournamentManagement () {
             </div>
             {playerTable()}
             {drawTeamButton()}
-            <button onClick={() => connection?.send('SendMessage', 'hehe')}>hehe</button>
         </div>
     )
 }
