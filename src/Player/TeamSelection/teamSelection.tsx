@@ -2,19 +2,19 @@ import { HubConnection } from '@microsoft/signalr'
 import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Store } from '../../redux/store'
 import { getTeamsAsyncThunk } from '../../redux/team/teamSlice'
 import { TeamModel } from './Models/team'
 import './teamSelection.scss'
 import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
+import { selectTeamApi } from '../../backendConnections/api/Team/teamApi'
 
 export default function SelectTeam () {
     const [connection, setConnection] = useState<HubConnection | null>(null)
-    const { tournamentId } = useParams()
-    // const { tournamentId, playerName, playerSurname } = useParams()
+    const { tournamentId, playerName, playerSurname } = useParams()
     const dispatch = useDispatch()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const [selectedTeam, setSelectedTeam] = useState('')
 
     const teams : TeamModel[] = useSelector((state: Store) => {
@@ -44,9 +44,6 @@ export default function SelectTeam () {
                 })
         }
     }, [teams.length])
-    useEffect(() => {
-        // if (player && player.selectedTeam !== '') { navigate('/player/selected') }
-    }, [])
 
     const teamsToSelectList = () => {
         return teams.map((team: TeamModel) => {
@@ -63,15 +60,19 @@ export default function SelectTeam () {
         }
     }
 
-    const selectTeam = () => {
-        // if (tournamentId && selectedTeam !== '') {
-        //     dispatch(selectTeamAsyncThunk({
-        //         // playerName: player.name,
-        //         // playerSurname: player.surname,
-        //         tournamentId,
-        //         team: selectedTeam
-        //     }))
-        // }
+    const selectTeam = async () => {
+        if (tournamentId && selectedTeam !== '') {
+            // to jakos lepiej ograc, moze callback na success?
+            const result = await selectTeamApi({
+                playerName: playerName as string,
+                playerSurname: playerSurname as string,
+                tournamentId,
+                team: selectedTeam
+            })
+            if (result.status === 200) {
+                navigate('/player/selected')
+            }
+        }
     }
     return (
         <div className="team-container">

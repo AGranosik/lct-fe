@@ -14,14 +14,12 @@ export default function PlayerRegister () {
     const [player, setPlayer] = useState<PlayerModel | null>(null)
 
     useEffect(() => {
-        console.log('hehe')
         if (player) { navigate(`/player/select/${id}/${player.name}/${player.surname}`) }
     }, [player])
 
     const onSubmit: SubmitHandler<PlayerRegisterModel> = async (data: PlayerRegisterModel) => {
         const result = await registerPlayer({ ...data, tournamentId: id as string })
         if (result.status === 200) {
-            console.log('status')
             setPlayer({
                 name: data.name,
                 surname: data.surname,
