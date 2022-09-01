@@ -47,11 +47,12 @@ export const tournamentSlice = createSlice({
                 state.players.push(action.payload)
             }
         },
-        selectTeam: (state: TournamentModel, action: PayloadAction<{playerId: string, team: string}>) => {
-            // const playerIndex = state.players.findIndex((player: PlayerModel) => player.id === action.payload.playerId)
-            // if (playerIndex !== -1) {
-            //     state.players[playerIndex].selectedTeam = action.payload.team
-            // }
+        selectTeam: (state: TournamentModel, action: PayloadAction<{playerName: string, playerSurname: string, team: string}>) => {
+            const { playerName, playerSurname } = action.payload
+            const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === playerName && player.surname === playerSurname)
+            if (playerIndex !== -1) {
+                state.players[playerIndex].selectedTeam = action.payload.team
+            }
         }
     },
     extraReducers: (builder) => {

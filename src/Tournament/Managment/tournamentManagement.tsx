@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { Store } from '../../redux/store'
 import { getTournamentAsyncThunk, drawTeamsAsyncThunk, addPlayer, selectTeam } from '../../redux/tournament/tournamentSlice'
 import './tournamentManagement.scss'
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr'
+import { HubConnection } from '@microsoft/signalr'
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
 import Button from '@mui/material/Button'
 import TournamentPlayer from './PlayersComponent/playersComponent'
@@ -45,7 +45,7 @@ export default function TournamentManagement () {
                                     name: model.name, surname: model.surname
                                 } as PlayerModel))
                             } else if (model.type === 'TeamSelected') {
-                                dispatch(selectTeam({ playerId: model.playerId, team: model.team }))
+                                dispatch(selectTeam({ playerName: model.playerName, playerSurname: model.playerSurname, team: model.team }))
                             }
                         }
                     })

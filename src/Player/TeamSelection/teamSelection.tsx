@@ -10,6 +10,8 @@ import './teamSelection.scss'
 import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
 import { selectTeamApi } from '../../backendConnections/api/Team/teamApi'
 
+//  calkowicie to ograc websocketem?
+
 export default function SelectTeam () {
     const [connection, setConnection] = useState<HubConnection | null>(null)
     const { tournamentId, playerName, playerSurname } = useParams()
