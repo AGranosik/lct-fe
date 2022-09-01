@@ -2,10 +2,9 @@ import { ErrorMessage } from '@hookform/error-message'
 import { Button, TextField } from '@mui/material'
 import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { registerPlayerAsyncThunk } from '../../redux/player/playerSlice'
-import { Store } from '../../redux/store'
 import { PlayerRegisterModel } from './Models/playerRegisterModel'
 import './register.scss'
 export default function PlayerRegister () {
@@ -13,11 +12,10 @@ export default function PlayerRegister () {
     const { id } = useParams()
     const { register, handleSubmit, formState: { errors } } = useForm<PlayerRegisterModel>()
     const onSubmit: SubmitHandler<PlayerRegisterModel> = (data: PlayerRegisterModel) => dispatch(registerPlayerAsyncThunk({ ...data, tournamentId: id ?? '' }))
-    const player = useSelector((state: Store) => state.player)
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     useEffect(() => {
-        if (player.name) { navigate(`/player/select/${id}`) }
+        // if (player.name) { navigate(`/player/select/${id}/${player.name}/${player.surname}`) }
     })
 
     return (

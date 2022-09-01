@@ -1,34 +1,28 @@
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr'
+import { HubConnection } from '@microsoft/signalr'
 import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { selectTeamAsyncThunk } from '../../redux/player/playerSlice'
+import { useParams } from 'react-router-dom'
 import { Store } from '../../redux/store'
-import { getTeamsAsyncThunk, teamSelected } from '../../redux/team/teamSlice'
+import { getTeamsAsyncThunk } from '../../redux/team/teamSlice'
 import { TeamModel } from './Models/team'
 import './teamSelection.scss'
+import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
 
 export default function SelectTeam () {
     const [connection, setConnection] = useState<HubConnection | null>(null)
-    const { tournamentId, playerId } = useParams()
+    const { tournamentId } = useParams()
+    // const { tournamentId, playerName, playerSurname } = useParams()
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const [selectedTeam, setSelectedTeam] = useState('')
 
     const teams : TeamModel[] = useSelector((state: Store) => {
         return state.teams
     })
 
-    const player = useSelector((state: Store) => {
-        return state.player
-    })
-
     useEffect(() => {
-        const newConnection = new HubConnectionBuilder()
-            .withUrl('http://192.168.1.11:7008/hubs/player')
-            .withAutomaticReconnect()
-            .build()
+        const newConnection = createConnection()
 
         if (tournamentId) {
             dispatch(getTeamsAsyncThunk(tournamentId))
@@ -41,18 +35,18 @@ export default function SelectTeam () {
             connection?.start()
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
-                        if (model.tournamentId === tournamentId) {
-                            if (model.type === 'TeamSelected' && model.playerId !== playerId) {
-                                dispatch(teamSelected(model.team))
-                            }
-                        }
+                        // if (model.tournamentId === tournamentId) {
+                        //     if (model.type === 'TeamSelected' && model.playerId !== playerId) {
+                        //         dispatch(teamSelected(model.team))
+                        //     }
+                        // }
                     })
                 })
         }
     }, [teams.length])
     useEffect(() => {
-        if (player && player.selectedTeam !== '') { navigate('/player/selected') }
-    }, [player])
+        // if (player && player.selectedTeam !== '') { navigate('/player/selected') }
+    }, [])
 
     const teamsToSelectList = () => {
         return teams.map((team: TeamModel) => {
@@ -70,13 +64,14 @@ export default function SelectTeam () {
     }
 
     const selectTeam = () => {
-        if (playerId && tournamentId && selectedTeam !== '') {
-            dispatch(selectTeamAsyncThunk({
-                playerId,
-                tournamentId,
-                team: selectedTeam
-            }))
-        }
+        // if (tournamentId && selectedTeam !== '') {
+        //     dispatch(selectTeamAsyncThunk({
+        //         // playerName: player.name,
+        //         // playerSurname: player.surname,
+        //         tournamentId,
+        //         team: selectedTeam
+        //     }))
+        // }
     }
     return (
         <div className="team-container">

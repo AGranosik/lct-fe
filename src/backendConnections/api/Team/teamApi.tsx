@@ -6,7 +6,8 @@ const _getTeamsUrl = `${_baseApiUrl}/team`
 const _selectTeamUrl = `${_baseApiUrl}/team/select`
 
 export interface SelectTeamApiModel{
-    playerId: string;
+    playerName: string;
+    playerSurname: string;
     tournamentId: string;
     team: string;
 }
