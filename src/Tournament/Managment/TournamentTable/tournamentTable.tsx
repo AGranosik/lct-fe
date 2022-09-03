@@ -1,25 +1,14 @@
 import { useSelector } from 'react-redux'
+import React from 'react'
 import { PlayerModel } from '../../../Player/Register/Models/PlayerModel'
 import { Store } from '../../../redux/store'
-import React from 'react'
-import './playersComponent.scss'
+import PlayerInfoComponent from '../PlayerInfo/playerInfoComponent'
 
-export default function PlayersComponent () {
+export default function TournamentTableComponent () {
     const players = useSelector((state: Store) => state.tournament.players)
 
-    const playerDisplay = () => {
-        return players.map((player: PlayerModel) =>
-            <div key={player.name + player.surname} className="row">
-                <div className="tournament-player-info">
-                    {player.name}
-                </div>
-                <div className="tournament-player-info">
-                    {player.selectedTeam}
-                </div>
-                <div className="tournament-player-info">
-                    {player.drawnTeam}
-                </div>
-            </div>)
+    const displayPlayers = () => {
+        return players.map((player: PlayerModel) => (<PlayerInfoComponent key={player.name + player.surname} player={player}></PlayerInfoComponent>))
     }
 
     return (
@@ -37,7 +26,7 @@ export default function PlayersComponent () {
                     </div>
                 </div>
                 <div className="tournament-player-table-rows">
-                    {playerDisplay()}
+                    {displayPlayers()}
                 </div>
             </div>
         </div>

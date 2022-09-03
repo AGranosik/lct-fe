@@ -7,8 +7,8 @@ import './tournamentManagement.scss'
 import { HubConnection } from '@microsoft/signalr'
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
 import Button from '@mui/material/Button'
-import TournamentPlayer from './PlayersComponent/playersComponent'
 import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
+import TournamentTableComponent from './TournamentTable/tournamentTable'
 
 export default function TournamentManagement () {
     const [connection, setConnection] = useState<HubConnection | null>(null)
@@ -54,17 +54,17 @@ export default function TournamentManagement () {
         }
     }, [connection])
 
+    const displayTournamentTable = () => {
+        if (tournament && tournament.players.length) {
+            return <TournamentTableComponent></TournamentTableComponent>
+        }
+    }
+
     const drawTeamButton = () => {
         if (available) {
             return (<div className='submit-container'>
                 <Button variant="contained" onClick={() => dispatch(drawTeamsAsyncThunk(id ?? ''))} disabled={!disabled}>Dobierz drużyny</Button>
             </div>)
-        }
-    }
-
-    const playerTable = () => {
-        if (tournament.players && tournament.players.length > 0) {
-            return (<TournamentPlayer></TournamentPlayer>)
         }
     }
 
@@ -76,7 +76,7 @@ export default function TournamentManagement () {
             <div className='qrCode-container'>
                 <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
             </div>
-            {playerTable()}
+            {displayTournamentTable()}
             {drawTeamButton()}
         </div>
     )
