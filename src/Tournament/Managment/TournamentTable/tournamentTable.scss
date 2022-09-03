@@ -1,0 +1,28 @@
+.tournament-player-container{
+    display: flex;
+    justify-content: center;
+    .tournament-player-table{
+        -webkit-box-shadow: 0px 2px 51px -3px rgba(66, 68, 90, 1);
+        -moz-box-shadow: 0px 2px 51px -3px rgba(66, 68, 90, 1);
+        box-shadow: 0px 2px 51px -3px rgba(66, 68, 90, 1);
+        border-radius: 0.5rem;
+        width: 40%;
+        &-headers{
+            border-bottom: 2px solid black;
+            font-weight: 700;
+        }
+        .header{
+            font-size: 1.5rem;
+            width: 33%;
+            padding: 1rem 0;
+        }
+    }
+}
+
+.row{
+    display: flex;
+    border-bottom: 2px solid black;
+}
+.row:last-child{
+    border-bottom: none;
+}

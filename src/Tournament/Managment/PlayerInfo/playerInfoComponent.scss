@@ -1,39 +1,5 @@
-.tournament-player-container{
-    display: flex;
-    justify-content: center;
-    .tournament-player-table{
-        -webkit-box-shadow: 0px 2px 51px -3px rgba(66, 68, 90, 1);
-        -moz-box-shadow: 0px 2px 51px -3px rgba(66, 68, 90, 1);
-        box-shadow: 0px 2px 51px -3px rgba(66, 68, 90, 1);
-        border-radius: 0.5rem;
-        width: 40%;
-        &-headers{
-            // padding: 1.2rem;
-            border-bottom: 2px solid black;
-            font-weight: 700;
-            
-        }
-        .tournament-player-info,
-        .header{
-            // padding-left: 3rem;
-            font-size: 1.5rem;
-            width: 33%;
-        }
-        .header{
-            padding: 1rem 0;
-
-        }
-        .tournament-player-table-rows{
-            .tournament-player-info{
-                padding: 1rem 0;
-            }
-        }
-        .row{
-            display: flex;
-            border-bottom: 2px solid black;
-        }
-        .row:last-child{
-            border-bottom: none;
-        }
-    }
+.tournament-player-info{
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    width: 33%;
 }

@@ -3,6 +3,7 @@ import React from 'react'
 import { PlayerModel } from '../../../Player/Register/Models/PlayerModel'
 import { Store } from '../../../redux/store'
 import PlayerInfoComponent from '../PlayerInfo/playerInfoComponent'
+import './tournamentTable.scss'
 
 export default function TournamentTableComponent () {
     const players = useSelector((state: Store) => state.tournament.players)
