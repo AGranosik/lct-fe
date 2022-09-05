@@ -31,15 +31,17 @@ export default function TournamentManagement () {
 
     useEffect(() => {
         setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== ''))
-        setAvailable(tournament.players.every((p: PlayerModel) => p.selectedTeam !== '' && (p.drawnTeam === '' || !p.drawnTeam)) && tournament.players?.length > 0)
+        setAvailable(tournament.players.every((p: PlayerModel) => p.selectedTeam !== '' && (p.drawnTeam === '' || !p.drawnTeam)) && anyPlayer())
     }, [tournament.players])
+
+    const anyPlayer = () => tournament.players?.length > 0
 
     useEffect(() => {
         if (connection && id) {
             connection.start()
                 .then(result => {
                     connection.on(id, (model: any) => {
-                        if (id === model.tournamentId) {
+                        if (isThisTournament(model.tournamentId)) {
                             if (model.type === 'PlayerAssigned') {
                                 dispatch(addPlayer({
                                     name: model.name, surname: model.surname
@@ -53,6 +55,10 @@ export default function TournamentManagement () {
                 .catch(e => console.log('Connection failed: ', e))
         }
     }, [connection])
+
+    const isThisTournament = (tournamentId: string) => {
+        return id === tournamentId
+    }
 
     const displayTournamentTable = () => {
         if (tournament && tournament.players.length) {

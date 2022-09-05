@@ -9,8 +9,10 @@ export default function TournamentTableComponent () {
     const players = useSelector((state: Store) => state.tournament.players)
 
     const displayPlayers = () => {
-        return players.map((player: PlayerModel) => (<PlayerInfoComponent key={player.name + player.surname} player={player}></PlayerInfoComponent>))
+        return players.map((player: PlayerModel) => (<PlayerInfoComponent key={playerKey(player)} player={player}></PlayerInfoComponent>))
     }
+
+    const playerKey = (player: PlayerModel) => player.name + player.surname
 
     return (
         <div className="tournament-player-container">

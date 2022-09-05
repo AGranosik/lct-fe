@@ -3,6 +3,7 @@ import { Button, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
+import { isStatusOk } from '../../backendConnections/api/common/apiHelper'
 import { registerPlayer } from '../../backendConnections/api/Tournament/tournamentApi'
 import { PlayerModel } from './Models/PlayerModel'
 import { PlayerRegisterModel } from './Models/playerRegisterModel'
@@ -19,7 +20,7 @@ export default function PlayerRegister () {
 
     const onSubmit: SubmitHandler<PlayerRegisterModel> = async (data: PlayerRegisterModel) => {
         const result = await registerPlayer({ ...data, tournamentId: id as string })
-        if (result.status === 200) {
+        if (isStatusOk(result.status)) {
             setPlayer({
                 name: data.name,
                 surname: data.surname,

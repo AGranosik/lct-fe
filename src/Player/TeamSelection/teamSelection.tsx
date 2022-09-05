@@ -9,6 +9,7 @@ import { TeamModel } from './Models/team'
 import './teamSelection.scss'
 import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
 import { selectTeamApi } from '../../backendConnections/api/Team/teamApi'
+import { isStatusOk } from '../../backendConnections/api/common/apiHelper'
 
 //  calkowicie to ograc websocketem?
 
@@ -37,8 +38,8 @@ export default function SelectTeam () {
             connection?.start()
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
-                        if (model.tournamentId === tournamentId) {
-                            if (model.type === 'TeamSelected' && model.playerName !== playerName && model.playerSurname !== playerSurname) {
+                        if (isThisTournament(model.tournamentId)) {
+                            if (isTournamentSelectedByOtherPlayer(model)) {
                                 dispatch(teamSelected(model.team))
                             }
                         }
@@ -62,6 +63,10 @@ export default function SelectTeam () {
         }
     }
 
+    const isTournamentSelectedByOtherPlayer = (model: any) => model.type === 'TeamSelected' && model.playerName !== playerName && model.playerSurname !== playerSurname
+
+    const isThisTournament = (tId: string) => tId === tournamentId
+
     const selectTeam = async () => {
         if (tournamentId && selectedTeam !== '') {
             // to jakos lepiej ograc, moze callback na success?
@@ -71,7 +76,7 @@ export default function SelectTeam () {
                 tournamentId,
                 team: selectedTeam
             })
-            if (result.status === 200) {
+            if (isStatusOk(result.status)) {
                 navigate('/player/selected')
             }
         }

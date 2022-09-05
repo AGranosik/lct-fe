@@ -17,7 +17,7 @@ export const teamsSlice = createSlice({
     initialState,
     reducers: {
         teamSelected: (state: TeamModel[], action: PayloadAction<string>) => {
-            const teamIndex = state.findIndex((team: TeamModel) => team.name === action.payload)
+            const teamIndex = findTeam(action.payload, state)
             if (teamIndex !== -1) {
                 state[teamIndex].selected = true
             }
@@ -30,6 +30,8 @@ export const teamsSlice = createSlice({
         })
     }
 })
+
+const findTeam = (teamToFind: string, teams: TeamModel[]) => teams.findIndex((team: TeamModel) => team.name === teamToFind)
 
 export default teamsSlice.reducer
 

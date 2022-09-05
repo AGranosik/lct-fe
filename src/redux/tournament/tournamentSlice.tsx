@@ -12,6 +12,8 @@ const initialState: TournamentModel = {
     name: ''
 }
 
+const findPlayer = (playerToFind: PlayerModel, players: PlayerModel[]) => players.findIndex((player: PlayerModel) => player.name === playerToFind.name && player.surname === playerToFind.surname)
+
 export const drawTeamsAsyncThunk = createAsyncThunk(
     'tournament/drawn',
     async (tournamentId: string) => {
@@ -42,14 +44,14 @@ export const tournamentSlice = createSlice({
     reducers: {
         addPlayer: (state: TournamentModel, action: PayloadAction<PlayerModel>) => {
             const addedPlayer = action.payload
-            const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === addedPlayer.name && player.surname === addedPlayer.surname)
+            const playerIndex = findPlayer(addedPlayer, state.players)
             if (playerIndex === -1) {
                 state.players.push(action.payload)
             }
         },
         selectTeam: (state: TournamentModel, action: PayloadAction<{playerName: string, playerSurname: string, team: string}>) => {
             const { playerName, playerSurname } = action.payload
-            const playerIndex = state.players.findIndex((player: PlayerModel) => player.name === playerName && player.surname === playerSurname)
+            const playerIndex = findPlayer({ name: playerName, surname: playerSurname }, state.players)
             if (playerIndex !== -1) {
                 state.players[playerIndex].selectedTeam = action.payload.team
             }
@@ -77,7 +79,7 @@ export const tournamentSlice = createSlice({
             const tournamentPlayers = state.players
             for (let i = 0; i < payload.length; i++) {
                 const drawTeamPlayer = payload[i]
-                const playerIndex = tournamentPlayers.findIndex(p => p.name === drawTeamPlayer.name && p.surname === drawTeamPlayer.surname) // player comaprision globally somewhere
+                const playerIndex = findPlayer(drawTeamPlayer, tournamentPlayers)
                 if (playerIndex !== -1) {
                     tournamentPlayers[playerIndex].drawnTeam = drawTeamPlayer.teamName
                 }
