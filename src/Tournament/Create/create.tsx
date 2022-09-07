@@ -17,7 +17,6 @@ export default function CreateTournament () {
     const { register, handleSubmit, formState: { errors } } = useForm<CreateTournamentModel>()
     const onSubmit: SubmitHandler<CreateTournamentModel> = (data: CreateTournamentModel) => dispatch(createTournamentAsyncThunk(data))
     useEffect(() => {
-        console.log(process.env.REACT_APP_API_ENDPOINT)
         if (tournament.id) {
             navigate(`/management/${tournament.id}`)
         }
