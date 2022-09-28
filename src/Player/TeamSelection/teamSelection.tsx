@@ -19,6 +19,7 @@ export default function SelectTeam () {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [selectedTeam, setSelectedTeam] = useState('')
+    // const [clickedTeam, setClicked]
 
     const teams : TeamModel[] = useSelector((state: Store) => {
         return state.teams
@@ -38,9 +39,13 @@ export default function SelectTeam () {
             connection?.start()
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
+                        console.log(model)
                         if (isThisTournament(model.tournamentId)) {
-                            if (isTournamentSelectedByOtherPlayer(model)) {
+                            if (isTeamSelectedByOtherPlayer(model)) {
                                 dispatch(teamSelected(model.team))
+                            }
+                            else if(isTeamClickedByOtherPlayer(model)){
+
                             }
                         }
                     })
@@ -59,11 +64,16 @@ export default function SelectTeam () {
     const teamOnClick = (name: string) => {
         const selectedTeamIndex = teams.findIndex((team: TeamModel) => team.selected && team.name === name)
         if (selectedTeamIndex === -1) {
+            connection?.send('TeamClicked', {
+                groupKey: tournamentId,
+                team: name
+            })
             setSelectedTeam(name)
         }
     }
 
-    const isTournamentSelectedByOtherPlayer = (model: any) => model.type === 'TeamSelected' && model.playerName !== playerName && model.playerSurname !== playerSurname
+    const isTeamSelectedByOtherPlayer = (model: any) => model.type === 'TeamSelected' && model.playerName !== playerName && model.playerSurname !== playerSurname
+    const isTeamClickedByOtherPlayer = (model: any) => model.typ === 'TeamClicked' && model.playerName !== playerName && model.playerSurname !== playerSurname
 
     const isThisTournament = (tId: string) => tId === tournamentId
 
