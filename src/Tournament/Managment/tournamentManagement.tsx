@@ -30,7 +30,8 @@ export default function TournamentManagement () {
     }, [tournament.playerLimit])
 
     useEffect(() => {
-        setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== ''))
+        console.log(tournament)
+        setDisabled(tournament.players.length === tournament.playerLimit && tournament.players.every((player: PlayerModel) => player.selectedTeam !== null))
         setAvailable(tournament.players.every((p: PlayerModel) => p.selectedTeam !== '' && (p.drawnTeam === '' || !p.drawnTeam)) && anyPlayer())
     }, [tournament.players])
 
