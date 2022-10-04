@@ -11,15 +11,13 @@ import { createConnection } from '../../backendConnections/webSockets/LctHubConn
 import { selectTeamApi } from '../../backendConnections/api/Team/teamApi'
 import { isStatusOk } from '../../backendConnections/api/common/apiHelper'
 
-//  calkowicie to ograc websocketem?
-
 export default function SelectTeam () {
     const [connection, setConnection] = useState<HubConnection | null>(null)
     const { tournamentId, playerName, playerSurname } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [selectedTeam, setSelectedTeam] = useState('')
-    // const [clickedTeam, setClicked]
+    const [clickedTeams, setClickedTeams] = useState([''])
 
     const teams : TeamModel[] = useSelector((state: Store) => {
         return state.teams
@@ -43,9 +41,9 @@ export default function SelectTeam () {
                         if (isThisTournament(model.tournamentId)) {
                             if (isTeamSelectedByOtherPlayer(model)) {
                                 dispatch(teamSelected(model.team))
-                            }
-                            else if(isTeamClickedByOtherPlayer(model)){
-
+                            } else if (isTeamClickedEvent(model.type)) {
+                                const clickedTeam = getOtherSelectedTeams(model)
+                                setClickedTeams(clickedTeam)
                             }
                         }
                     })
@@ -57,6 +55,7 @@ export default function SelectTeam () {
         return teams.map((team: TeamModel) => {
             let classes = team.name === selectedTeam ? 'selected team ' : 'team '
             classes += team.selected ? 'team-occupied' : ''
+            classes += clickedTeams.includes(team.name) ? 'team-clicked' : ''
             return (<div key={team.name} onClick={() => teamOnClick(team.name)} className={classes}>{team.name}</div>)
         })
     }
@@ -66,14 +65,18 @@ export default function SelectTeam () {
         if (selectedTeamIndex === -1) {
             connection?.send('TeamClicked', {
                 groupKey: tournamentId,
-                team: name
+                team: name,
+                name: playerName,
+                surname: playerSurname
             })
             setSelectedTeam(name)
         }
     }
 
+    const getOtherSelectedTeams = (model: any) => model.clickedTeams?.filter((ct: any) => ct.name !== playerName && ct.surname !== playerSurname).map((ct: any) => ct.team)
+
+    const isTeamClickedEvent = (type: any) => type === 'TeamClicked'
     const isTeamSelectedByOtherPlayer = (model: any) => model.type === 'TeamSelected' && model.playerName !== playerName && model.playerSurname !== playerSurname
-    const isTeamClickedByOtherPlayer = (model: any) => model.typ === 'TeamClicked' && model.playerName !== playerName && model.playerSurname !== playerSurname
 
     const isThisTournament = (tId: string) => tId === tournamentId
 
