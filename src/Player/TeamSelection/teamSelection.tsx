@@ -43,6 +43,7 @@ export default function SelectTeam () {
                                 dispatch(teamSelected(model.team))
                             } else if (isTeamClickedEvent(model.type)) {
                                 const clickedTeam = getOtherSelectedTeams(model)
+                                console.log(clickedTeam)
                                 setClickedTeams(clickedTeam)
                             }
                         }
@@ -53,9 +54,14 @@ export default function SelectTeam () {
 
     const teamsToSelectList = () => {
         return teams.map((team: TeamModel) => {
-            let classes = team.name === selectedTeam ? 'selected team ' : 'team '
-            classes += team.selected ? 'team-occupied' : ''
-            classes += clickedTeams.includes(team.name) ? 'team-clicked' : ''
+            const isSelectedTeam = team.name === selectedTeam
+            let classes = 'team '
+            if (team.selected) {
+                classes += 'team-occupied '
+            } else {
+                classes += isSelectedTeam ? 'selected team ' : ''
+                classes += clickedTeams.includes(team.name) && !isSelectedTeam ? 'team-clicked' : ''
+            }
             return (<div key={team.name} onClick={() => teamOnClick(team.name)} className={classes}>{team.name}</div>)
         })
     }
