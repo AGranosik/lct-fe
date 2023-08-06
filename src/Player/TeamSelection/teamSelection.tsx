@@ -7,7 +7,7 @@ import { Store } from '../../redux/store'
 import { getTeamsAsyncThunk, teamSelected } from '../../redux/team/teamSlice'
 import { TeamModel } from './Models/team'
 import './teamSelection.scss'
-import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
+import { createConnectionForTournament } from '../../backendConnections/webSockets/LctHubConnection'
 import { selectTeamApi } from '../../backendConnections/api/Team/teamApi'
 import { isStatusOk } from '../../backendConnections/api/common/apiHelper'
 
@@ -24,12 +24,11 @@ export default function SelectTeam () {
     })
 
     useEffect(() => {
-        const newConnection = createConnection()
-
         if (tournamentId) {
             dispatch(getTeamsAsyncThunk(tournamentId))
+            const newConnection = createConnectionForTournament(tournamentId)
+            setConnection(newConnection)
         }
-        setConnection(newConnection)
     }, [])
 
     useEffect(() => {

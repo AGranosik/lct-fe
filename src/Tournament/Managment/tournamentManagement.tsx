@@ -7,7 +7,7 @@ import './tournamentManagement.scss'
 import { HubConnection } from '@microsoft/signalr'
 import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
 import Button from '@mui/material/Button'
-import { createConnection } from '../../backendConnections/webSockets/LctHubConnection'
+import { createConnectionForTournament } from '../../backendConnections/webSockets/LctHubConnection'
 import TournamentTableComponent from './TournamentTable/tournamentTable'
 
 export default function TournamentManagement () {
@@ -22,7 +22,7 @@ export default function TournamentManagement () {
     })
     useEffect(() => {
         if (id) {
-            const newConnection = createConnection()
+            const newConnection = createConnectionForTournament(id)
 
             dispatch(getTournamentAsyncThunk(id))
             setConnection(newConnection)
