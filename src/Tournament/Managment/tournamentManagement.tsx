@@ -42,6 +42,7 @@ export default function TournamentManagement () {
             connection.start()
                 .then(result => {
                     connection.on(id, (model: any) => {
+                        model = JSON.parse(model)
                         if (isThisTournament(model.tournamentId)) {
                             if (model.type === 'PlayerAssigned') {
                                 dispatch(addPlayer({

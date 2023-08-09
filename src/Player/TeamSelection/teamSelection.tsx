@@ -36,6 +36,7 @@ export default function SelectTeam () {
             connection?.start()
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
+                        model = JSON.parse(model)
                         console.log(model)
                         if (isThisTournament(model.tournamentId)) {
                             if (isTeamSelectedByOtherPlayer(model)) {
