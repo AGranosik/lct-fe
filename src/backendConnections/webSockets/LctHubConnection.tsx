@@ -23,5 +23,5 @@ const createWebsocketUrl = (hub: string, params: Map<string, string>) => {
         searchParams.append(key, value)
     }
 
-    return `${_baseUrl}/${hub}/?${searchParams.toString()}`
+    return `${_baseUrl}/${hub}?${searchParams.toString()}`
 }
