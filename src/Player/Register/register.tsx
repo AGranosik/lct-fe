@@ -21,12 +21,14 @@ export default function PlayerRegister () {
     const onSubmit: SubmitHandler<PlayerRegisterModel> = async (data: PlayerRegisterModel) => {
         const result = await registerPlayer({ ...data, tournamentId: id as string })
         if (isStatusOk(result.status)) {
-            setPlayer({
+            const dataPlayer = {
                 name: data.name,
                 surname: data.surname,
                 drawnTeam: '',
                 selectedTeam: ''
-            })
+            }
+            window.sessionStorage.setItem('player', JSON.stringify(dataPlayer))
+            setPlayer(dataPlayer)
         }
     }
 

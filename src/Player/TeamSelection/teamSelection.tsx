@@ -20,6 +20,7 @@ export default function SelectTeam () {
     const [clickedTeams, setClickedTeams] = useState([''])
 
     const teams : TeamModel[] = useSelector((state: Store) => {
+        console.log(window.sessionStorage.getItem('player'))
         return state.teams
     })
 
