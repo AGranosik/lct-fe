@@ -13,22 +13,30 @@ import { isStatusOk } from '../../backendConnections/api/common/apiHelper'
 
 export default function SelectTeam () {
     const [connection, setConnection] = useState<HubConnection | null>(null)
-    const { tournamentId, playerName, playerSurname } = useParams()
+    const { tournamentId } = useParams()
+    const [playerName, setPlayerName] = useState('')
+    const [playerSurname, setPlayerSurname] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [selectedTeam, setSelectedTeam] = useState('')
     const [clickedTeams, setClickedTeams] = useState([''])
 
     const teams : TeamModel[] = useSelector((state: Store) => {
-        console.log(window.sessionStorage.getItem('player'))
         return state.teams
     })
 
     useEffect(() => {
         if (tournamentId) {
-            dispatch(getTeamsAsyncThunk(tournamentId))
-            const newConnection = createConnectionForTournament(tournamentId)
-            setConnection(newConnection)
+            const playerObejct = window.sessionStorage.getItem('player')
+            if (playerObejct !== null) {
+                const parsedObject: { name:string, surname: string} = JSON.parse(playerObejct)
+                setPlayerName(parsedObject.name)
+                setPlayerSurname(parsedObject.surname)
+                console.log(playerName)
+                dispatch(getTeamsAsyncThunk(tournamentId))
+                const newConnection = createConnectionForTournament(tournamentId)
+                setConnection(newConnection)
+            }
         }
     }, [])
 
@@ -38,7 +46,6 @@ export default function SelectTeam () {
                 .then(result => {
                     connection.on(tournamentId, (model: any) => {
                         model = JSON.parse(model)
-                        console.log(model)
                         if (isThisTournament(model.tournamentId)) {
                             if (isTeamSelectedByOtherPlayer(model)) {
                                 dispatch(teamSelected(model.team))
@@ -70,6 +77,8 @@ export default function SelectTeam () {
     const teamOnClick = (name: string) => {
         const selectedTeamIndex = teams.findIndex((team: TeamModel) => team.selected && team.name === name)
         if (selectedTeamIndex === -1) {
+            console.log(playerName)
+            console.log(tournamentId)
             connection?.send('TeamClicked', {
                 groupKey: tournamentId,
                 team: name,
@@ -89,7 +98,6 @@ export default function SelectTeam () {
 
     const selectTeam = async () => {
         if (tournamentId && selectedTeam !== '') {
-            // to jakos lepiej ograc, moze callback na success?
             const result = await selectTeamApi({
                 playerName: playerName as string,
                 playerSurname: playerSurname as string,

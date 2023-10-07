@@ -15,7 +15,7 @@ export default function PlayerRegister () {
     const [player, setPlayer] = useState<PlayerModel | null>(null)
 
     useEffect(() => {
-        if (player) { navigate(`/player/select/${id}/${player.name}/${player.surname}`) }
+        if (player) { navigate(`/player/select/${id}`) }
     }, [player])
 
     const onSubmit: SubmitHandler<PlayerRegisterModel> = async (data: PlayerRegisterModel) => {
