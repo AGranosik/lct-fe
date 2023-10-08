@@ -1,14 +1,12 @@
 .tournament{
     text-align: center;
+    margin-top: 1rem;
     &-header{
         margin-top: 1rem;
         font-weight: 800;
     }
     .qrCode-container{
-        img{
-            width: 400px;
-            height: 400px;
-        }
+        margin-top: 1rem;
     }
     .submit-container{
         margin-top: 2rem;

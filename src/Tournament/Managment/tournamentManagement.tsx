@@ -9,6 +9,7 @@ import { PlayerModel } from '../../Player/Register/Models/PlayerModel'
 import Button from '@mui/material/Button'
 import { createConnectionForTournament } from '../../backendConnections/webSockets/LctHubConnection'
 import TournamentTableComponent from './TournamentTable/tournamentTable'
+import QRCode from 'react-qr-code'
 
 export default function TournamentManagement () {
     const [connection, setConnection] = useState<HubConnection | null>(null)
@@ -83,7 +84,7 @@ export default function TournamentManagement () {
                 Zaskanuj kod qr będąc podłączonym do sieci Wifi
             </div>
             <div className='qrCode-container'>
-                <img src={`data:image/jpeg;base64,${tournament.qrCode}`} />
+                <QRCode value={`${window.location.origin}/player/register/"`} />
             </div>
             {displayTournamentTable()}
             {drawTeamButton()}
